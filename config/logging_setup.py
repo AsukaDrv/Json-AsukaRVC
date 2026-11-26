@@ -1,5 +1,5 @@
 
-
+NAME_FORK = "RVC Genshin Impact"
 import logging
 import os
 import sys
