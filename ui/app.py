@@ -21,7 +21,7 @@ current_dir = os.getcwd()
 sys.path.append(current_dir)
 
 
-from config.logging_setup import configure_logging_libs, setup_logging
+from config.logging_setup import configure_logging_libs, setup_logging, NAME_FORK
 
 configure_logging_libs()
 setup_logging()
@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
         with gr.Blocks(**blocks_kwargs) as app:
 
-            gr.Label(f'AsukaRVC V3 {"ZeroGPU mode" if IS_ZERO_GPU else ""} created with ❤️', show_label=False)
+            gr.Label(f'AsukaRVC V3 {NAME_FORK} {"ZeroGPU mode" if IS_ZERO_GPU else ""} created with ❤️', show_label=False)
             if IS_ZERO_GPU:
                 gr.Markdown(
                     """
@@ -96,8 +96,7 @@ if __name__ == '__main__':
             inference_tab()
             downloader_tab()
             upload_tab()
-            with gr.Tab("Train"):
-                training_tab()
+            
 
         print("-----------")
         print("AsukaRVC V3")
