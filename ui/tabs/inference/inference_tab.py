@@ -16,10 +16,6 @@ from ui.tabs.common import (
 
 
 def inference_tab():
-    """Build the "Generate" tab. Must be called inside a gr.Blocks context."""
-    # Lazy import: programs.core pulls in torch and the whole separation stack.
-    # Keeping it out of the module level lets the app (and the --ui web mode)
-    # boot on machines without the ML backend installed.
     from programs.core import song_cover_pipeline, yt_download
 
     voice_models = get_current_models(rvc_models_dir)
@@ -32,7 +28,12 @@ def inference_tab():
 
     with gr.Tab("Inference"):
         with gr.Row():
-            rvc_model = gr.Dropdown(voice_models, label='Voice Models')
+            rvc_model = gr.Dropdown(
+                ["ayaka-jp","ayato-jp","diluc-jp","eula-jp","fischl-jp","ganyu-jp","hutao-jp","kaeya-jp","keqing-jp","klee-jp","kokomi-jp","mona-jp","nahida-jp","nilou-jp","wanderer-jp","yaemiko-jp","yelan-jp","yoimiya-jp","zhongli-jp","aether-jp-v2","albedo-jp-v2","alhaitam-jp-v2","amber-jp-v2","ayaka-jp-v2","barbara-jp-v2","bennett-jp-v2","charlotte-jp-v2","chongyun-jp-v2","cyno-jp-v2","dehya-jp-v2","diona-jp-v2","dori-jp-v2","faruzan-jp-v2","furina-jp-v2","greaterLordRukkhadevata-jp-v2","itto-jp-v2","jean-jp-v2","kaveh-jp-v2","kazuha-jp-v2","kuki-jp-v2","lisa-jp-v2","lumine-jp-v2","lynette-jp-v2","lyney-jp-v2","nahida-jp-v2","navia-jp-v2","neuvillette-jp-v2","nilou-jp-v2","ningguang-jp-v2","noelle-jp-v2","paimon-jp-v2","qiqi-jp-v2","raiden-jp-v2","razor-jp-v2","rosaria-jp-v2","sara-jp-v2","shenhe-jp-v2","sigewinne-jp-v2","signora-jp-v2","sucrose-jp-v2","tartaglia-jp-v2","venti-jp-v2","wriothesley-jp-v2","xiao-jp-v2","yanfei-jp-v2","zhongli-jp-v2"], 
+                value='ayaka-jp',
+                label='Select Your Models',
+                info='auto = voices swap at vocal phrase boundaries (recommended) · alternate = timed swaps every N seconds, snapped to phrase pauses · sequential = A sings the first part, B the rest · overlap = both sing together',
+            )
             ref_btn = gr.Button('Refresh', variant='primary')
 
         with gr.Row():
