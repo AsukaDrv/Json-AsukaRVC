@@ -252,7 +252,7 @@ def raise_exception(error_msg, is_webui):
         raise Exception(error_msg)
 
 
-def _download_public_voice_model(voice_model, is_webui):
+def _download_public_voice_model(voice_model, is_webui, progress=None):
     """Auto-download a voice model from the public index when it is selected
     in the Inference tab but not installed yet.
 
@@ -284,7 +284,7 @@ def _download_public_voice_model(voice_model, is_webui):
 
     url = entry['url']
     logger.info('[~] Voice model "%s" is not installed - downloading it from the public index...', voice_model)
-    display_progress(f'[~] Downloading voice model "{voice_model}"...', 0.05, is_webui)
+    display_progress(f'[~] Downloading voice model "{voice_model}"...', 0.05, is_webui, progress)
 
     if 'pixeldrain.com' in url:
         url = f'https://pixeldrain.com/api/file/{url.split("/")[-1]}'
@@ -325,11 +325,11 @@ def _download_public_voice_model(voice_model, is_webui):
     logger.info('[+] Voice model "%s" installed.', voice_model)
 
 
-def get_rvc_model(voice_model, is_webui):
+def get_rvc_model(voice_model, is_webui, progress=None):
     model_dir = os.path.join(rvc_models_dir, voice_model)
     if not os.path.isdir(model_dir) or not os.listdir(model_dir):
         # The model was selected from the public list but not downloaded yet.
-        _download_public_voice_model(voice_model, is_webui)
+        _download_public_voice_model(voice_model, is_webui, progress)
     rvc_model_filename, rvc_index_filename = None, None
     model_dir = os.path.join(rvc_models_dir, voice_model)
     for file in os.listdir(model_dir):
@@ -743,7 +743,7 @@ def upload_audio_to_hf(cover_path, repo_id, token):
 def voice_change(voice_model, vocals_path, output_path, pitch_change, f0_method, index_rate,
                  filter_radius, rms_mix_rate, protect, crepe_hop_length, is_webui,
                  embedder_model="contentvec", split_audio=False, autotune=False,
-                 index_path_override=None):
+                 index_path_override=None, progress=None):
     """Convert the dry vocals with the selected RVC voice model.
 
     ``index_path_override`` replaces the model's auto-detected index file —
@@ -751,7 +751,7 @@ def voice_change(voice_model, vocals_path, output_path, pitch_change, f0_method,
     explicit index path.
     """
     ensure_f0_predictor(f0_method)
-    rvc_model_path, rvc_index_path = get_rvc_model(voice_model, is_webui)
+    rvc_model_path, rvc_index_path = get_rvc_model(voice_model, is_webui, progress)
     if index_path_override:
         rvc_index_path = index_path_override
     voice_converter = import_voice_converter()
@@ -925,7 +925,7 @@ def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
             display_progress('[~] Converting voice using RVC...', 0.5, is_webui, progress)
             voice_change(voice_model, main_vocals_dereverb_path, ai_vocals_path, pitch_change, f0_method,
                          index_rate, filter_radius, rms_mix_rate, protect, crepe_hop_length, is_webui,
-                         embedder_model, split_audio, autotune)
+                         embedder_model, split_audio, autotune, progress=progress)
 
         # Backing vocals RVC conversion (optional): convert the backup vocals
         # with a second RVC model and use the result in the final mix.
@@ -950,7 +950,7 @@ def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
                         pitch_change_back, pitch_extract_back, index_rate_back, filter_radius_back,
                         rms_mix_rate_back, protect_back, hop_length_back, is_webui,
                         embedder_model_back, split_audio_back, autotune_back,
-                        index_path_override=backing_index,
+                        index_path_override=backing_index, progress=progress,
                     )
                 # When the backing conversion was exported in a compressed
                 # format, the converted file replaces the raw wav.
