@@ -199,7 +199,6 @@ async function loadOptions() {
 
   fillSelect("voice-model", options.voice_models.map((m) => m.name));
   fillSelect("backing-model", options.voice_models.map((m) => m.name));
-  fillSelect("duet-model", options.voice_models.map((m) => m.name));
   fillSelect("f0-method", options.f0_methods);
   fillSelect("embedder-model", options.embedders);
   fillSelect("embedder-model-back", options.embedders);
@@ -255,7 +254,6 @@ async function refreshVoiceModels() {
   state.options.voice_models = data.models;
   fillSelect("voice-model", data.models.map((m) => m.name));
   fillSelect("backing-model", data.models.map((m) => m.name));
-  fillSelect("duet-model", data.models.map((m) => m.name));
   $("models-hint").textContent = data.models.length
     ? `${data.models.length} model(s) installed.`
     : "No models installed yet — grab one in the Models tab.";
@@ -339,9 +337,6 @@ bindSlider("reverb-dry", (v) => Number(v).toFixed(2));
 bindSlider("reverb-damping", (v) => Number(v).toFixed(2));
 bindSlider("reverb-width", (v) => Number(v).toFixed(2));
 bindSlider("inst-pitch-shift");
-bindSlider("duet-split");
-bindSlider("duet-interval");
-bindSlider("duet-pitch");
 bindSlider("segment-len", (v) => Number(v).toFixed(1));
 bindSlider("include-mutes");
 bindSlider("total-epoch");
@@ -351,7 +346,6 @@ bindSlider("train-batch-size");
 $("f0-method").addEventListener("change", () => { $("crepe-hop-block").hidden = $("f0-method").value !== "crepe"; });
 $("infer-backing-vocals").addEventListener("change", () => { $("backing-block").hidden = !$("infer-backing-vocals").checked; });
 $("hf-upload").addEventListener("change", () => { $("hf-block").hidden = !$("hf-upload").checked; });
-$("duet-enabled").addEventListener("change", () => { $("duet-block").hidden = !$("duet-enabled").checked; });
 
 const checked = (id) => $(id).checked;
 const value = (id) => $(id).value;
@@ -360,9 +354,6 @@ function buildInferenceBody() {
   const songInput = currentSongInput();
   if (!songInput) throw new Error("Provide a song file or URL first.");
   if (!value("voice-model")) throw new Error("Select a voice model first.");
-  const duetEnabled = checked("duet-enabled");
-  if (duetEnabled && !value("duet-model")) throw new Error("Select the second duet voice model, or disable the duet option.");
-  if (duetEnabled && value("duet-model") === value("voice-model")) throw new Error("The duet second voice must be different from the main voice model.");
   return {
     song_input: songInput,
     voice_model: value("voice-model"),
@@ -417,12 +408,6 @@ function buildInferenceBody() {
     hf_upload: checked("hf-upload"),
     hf_repo_id: value("hf-repo-id"),
     hf_token: value("hf-token"),
-    duet_enabled: duetEnabled,
-    duet_model: duetEnabled ? value("duet-model") : null,
-    duet_mode: value("duet-mode"),
-    duet_split: Number(value("duet-split")),
-    duet_interval: Number(value("duet-interval")),
-    duet_pitch: Number(value("duet-pitch")),
     save_drive: checked("save-drive"),
     drive_folder: value("drive-folder") || "AsukaRVC",
   };

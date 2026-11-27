@@ -28,7 +28,6 @@ from audio_separator.separator import Separator
 
 from programs.rvc.lib.tools.model_download import model_download_pipeline
 from programs.colab_drive import DEFAULT_DRIVE_FOLDER, save_file_to_drive
-from programs.duet_cover import DUET_MODES, build_duet_vocals
 from config.logging_setup import get_logger
 
 logger = get_logger("core")
@@ -775,8 +774,6 @@ def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
                         export_format_rvc_back='wav', split_audio_back=False, autotune_back=False,
                         embedder_model_back='contentvec',
                         hf_upload=False, hf_repo_id="", hf_token="",
-                        duet_enabled=False, duet_model=None, duet_mode="auto",
-                        duet_split=50, duet_interval=15, duet_pitch=0,
                         save_drive=False, drive_folder=DEFAULT_DRIVE_FOLDER,
                         batch_size=1, use_tta=False, progress=gr.Progress()):
     """
@@ -845,51 +842,13 @@ def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
         # RVC conversion
         pitch_change = pitch_change * 12 + pitch_change_all
         ai_vocals_path = os.path.join(song_dir, f'{music_folder}_{voice_model}_p{pitch_change}_i{index_rate}_fr{filter_radius}_rms{rms_mix_rate}_pro{protect}_{f0_method}{"" if f0_method != "mangio-crepe" else f"_{crepe_hop_length}"}.wav')
-        if duet_enabled and duet_model:
-            ai_cover_path = os.path.join(song_dir, f'{music_folder} ({voice_model} x {duet_model} Duet).{export_format_final}')
-        else:
-            ai_cover_path = os.path.join(song_dir, f'{music_folder} ({voice_model} Ver).{export_format_final}')
+        ai_cover_path = os.path.join(song_dir, f'{music_folder} ({voice_model} Ver).{export_format_final}')
 
         if not os.path.exists(ai_vocals_path):
             display_progress('[~] Converting voice using RVC...', 0.5, is_webui, progress)
             voice_change(voice_model, main_vocals_dereverb_path, ai_vocals_path, pitch_change, f0_method,
                          index_rate, filter_radius, rms_mix_rate, protect, crepe_hop_length, is_webui,
                          embedder_model, split_audio, autotune)
-
-        # Duet cover (optional): convert the vocals with a second RVC model
-        # and weave the two takes into one duet vocal track that replaces the
-        # main vocals everywhere downstream (effects + final mix).
-        voice_a_converted_path = ai_vocals_path
-        duet_vocals_path = None
-        if duet_enabled:
-            if not duet_model or not str(duet_model).strip():
-                raise_exception('Select the second voice model for the duet, or disable the duet option.', is_webui)
-            if str(duet_model).strip() == voice_model:
-                raise_exception('The duet second voice must be different from the main voice model.', is_webui)
-            if duet_mode not in DUET_MODES:
-                raise_exception(f'Unknown duet mode "{duet_mode}". Choose from: {", ".join(DUET_MODES)}.', is_webui)
-            duet_pitch = float(duet_pitch or 0)
-            if not -12 <= duet_pitch <= 12:
-                raise_exception('The duet second-voice pitch offset must be between -12 and 12 semitones.', is_webui)
-            display_progress('[~] Converting the second duet voice using RVC...', 0.55, is_webui, progress)
-            # The second voice can sit at its own pitch (semitone offset,
-            # e.g. +12 to put a female model over a male original). The
-            # cache name carries the offset so takes are never reused
-            # across different offsets.
-            duet_pitch_tag = f"_dp{int(duet_pitch)}" if duet_pitch else ""
-            duet_vocals_path = os.path.join(song_dir, f'{music_folder}_{duet_model}_p{pitch_change}{duet_pitch_tag}_i{index_rate}_fr{filter_radius}_rms{rms_mix_rate}_pro{protect}_{f0_method}{"" if f0_method != "mangio-crepe" else f"_{crepe_hop_length}"}.wav')
-            if not os.path.exists(duet_vocals_path):
-                voice_change(duet_model, main_vocals_dereverb_path, duet_vocals_path,
-                             float(pitch_change) + duet_pitch / 12.0, f0_method,
-                             index_rate, filter_radius, rms_mix_rate, protect, crepe_hop_length, is_webui,
-                             embedder_model, split_audio, autotune)
-            display_progress('[~] Building the duet vocal track...', 0.6, is_webui, progress)
-            duet_tag = f"_s{int(float(duet_split))}" if duet_mode == "sequential" else f"_i{int(float(duet_interval))}" if duet_mode == "alternate" else ""
-            duet_track_path = os.path.join(song_dir, f'{music_folder}_duet_{voice_model}_x_{duet_model}_{duet_mode}{duet_tag}.wav')
-            if not os.path.exists(duet_track_path):
-                build_duet_vocals(voice_a_converted_path, duet_vocals_path, duet_track_path,
-                                  duet_mode, duet_split, duet_interval)
-            ai_vocals_path = duet_track_path
 
         # Backing vocals RVC conversion (optional): convert the backup vocals
         # with a second RVC model and use the result in the final mix.
@@ -962,10 +921,6 @@ def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
         if not keep_files:
             display_progress('[~] Removing intermediate audio files...', 0.95, is_webui, progress)
             intermediate_files = [vocals_path, main_vocals_path, ai_vocals_mixed_path, nr_path]
-            if duet_vocals_path:
-                # The raw per-voice conversions and the merged duet track are
-                # intermediate once they have been mixed into the cover.
-                intermediate_files += [voice_a_converted_path, duet_vocals_path, ai_vocals_path]
             if ai_backing_vocals_path:
                 intermediate_files.append(ai_backing_vocals_path)
             if pitch_change_all != 0:
@@ -1074,13 +1029,6 @@ if __name__ == '__main__':
     parser.add_argument('-bvsplit', '--backing-split-audio', action='store_true', help='Split audio for the backing vocals conversion.')
     parser.add_argument('-bvautotune', '--backing-autotune', action='store_true', help='Enable autotune for the backing vocals conversion.')
     parser.add_argument('-bvemb', '--backing-embedder-model', type=str, default='contentvec', help='Embedder model for the backing vocals conversion.')
-    # Duet cover options
-    parser.add_argument('-duet', '--duet-enabled', action='store_true', help='Build a duet cover: a second RVC model sings part of the song.')
-    parser.add_argument('-duet-model', '--duet-model', type=str, default=None, help='Name of the RVC model folder used as the second duet voice.')
-    parser.add_argument('-duet-mode', '--duet-mode', type=str, default='auto', choices=DUET_MODES, help='Duet style: auto (swap at vocal phrase boundaries), alternate (timed swaps, phrase-snapped), sequential (A then B) or overlap (both voices).')
-    parser.add_argument('-duet-split', '--duet-split', type=float, default=50, help='Sequential mode: percent of the song sung by voice A (1-99).')
-    parser.add_argument('-duet-interval', '--duet-interval', type=float, default=15, help='Alternate/auto-fallback mode: seconds per voice before swapping.')
-    parser.add_argument('-duet-pitch', '--duet-pitch', type=float, default=0, help='Semitone offset for the second duet voice (-12 to 12).')
     # Google Drive (Colab) options
     parser.add_argument('-drive', '--save-drive', action='store_true', help='Save the final cover to Google Drive (Colab only; auto-mounts Drive).')
     parser.add_argument('-drive-folder', '--drive-folder', type=str, default=DEFAULT_DRIVE_FOLDER, help="Drive folder under 'MyDrive' where covers are saved.")
@@ -1133,12 +1081,6 @@ if __name__ == '__main__':
         split_audio_back=args.backing_split_audio,
         autotune_back=args.backing_autotune,
         embedder_model_back=args.backing_embedder_model,
-        duet_enabled=args.duet_enabled,
-        duet_model=args.duet_model,
-        duet_mode=args.duet_mode,
-        duet_split=args.duet_split,
-        duet_interval=args.duet_interval,
-        duet_pitch=args.duet_pitch,
         save_drive=args.save_drive,
         drive_folder=args.drive_folder,
         batch_size=args.batch_size,
