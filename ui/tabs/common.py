@@ -51,18 +51,18 @@ def get_current_models(models_dir):
 def get_selectable_models(models_dir=rvc_models_dir):
     """Models the Inference dropdown can offer.
 
-    Installed models come first; on a fresh install (empty ``rvc_models``)
-    the names from the public index are offered instead so the list is never
-    empty — selecting one auto-downloads it before conversion.
+    Installed models first, followed by every model from the public index
+    that is not installed yet — selecting one auto-downloads it before the
+    conversion, so the list doubles as the downloadable model catalog.
     """
     installed = get_current_models(models_dir)
-    if installed:
-        return installed
     try:
         public = load_public_models_json()
-        return [model['name'] for model in public.get('voice_models', [])]
+        public_names = [model['name'] for model in public.get('voice_models', [])]
     except Exception:
-        return []
+        public_names = []
+    # De-duplicated merge, preserving order (installed first).
+    return list(dict.fromkeys(installed + public_names))
 
 
 # Extensions accepted for character preview images.
@@ -100,9 +100,34 @@ def get_character_image(model_name):
 
 
 def update_character_image(model_name):
-    """Refresh callback for the character preview image component."""
+    """Refresh callback for the character preview (Markdown) component."""
+    markdown = get_character_image_markdown(model_name)
+    return gr.update(value=markdown, visible=bool(markdown))
+
+
+def get_character_image_markdown(model_name):
+    """Markdown/HTML snippet showing the character image of a voice model.
+
+    Rendered inside a ``gr.Markdown`` component above the model selector.
+    Returns an empty string when the model has no image so the component
+    can be hidden.
+    """
     image = get_character_image(model_name)
-    return gr.update(value=image, visible=image is not None)
+    if not image:
+        return ''
+    if image.startswith(('http://', 'https://')):
+        url = image
+    else:
+        # Local files are served by Gradio through the /file= route
+        # (character_images dir is registered via gr.set_static_paths).
+        url = f'file={image}'
+    name = str(model_name).replace('"', '')
+    return (
+        f'<div style="display:flex;justify-content:center;">'
+        f'<img src="{url}" alt="{name}" '
+        f'style="max-height:260px;max-width:100%;object-fit:contain;'
+        f'border:1px solid var(--border-color-primary);border-radius:10px;" /></div>'
+    )
 
 
 def update_models_list():

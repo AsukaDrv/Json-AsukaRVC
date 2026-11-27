@@ -32,6 +32,16 @@ from ui.tabs.common import IS_ZERO_GPU, ensure_rvc_models_dir
 # exists before any tab lists its contents.
 ensure_rvc_models_dir()
 
+# Serve local character preview images through Gradio's /file= route
+# (used by the Markdown character preview in the Inference tab). Older
+# Gradio versions do not have set_static_paths; local images simply will
+# not resolve there, remote URLs from public_models.json still work.
+try:
+    from ui.tabs.common import character_images_dir
+    gr.set_static_paths(paths=[character_images_dir])
+except Exception:
+    pass
+
 if __name__ == '__main__':
     parser = ArgumentParser(description='AsukaRVC V3.', add_help=True)
     parser.add_argument('--ui', choices=['gradio', 'web'], default='gradio',
