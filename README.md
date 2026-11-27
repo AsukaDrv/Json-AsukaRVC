@@ -27,14 +27,6 @@ Built with ❤️ for music enthusiasts and creators, it allows you to transform
 - Download voice models from HuggingFace / Pixeldrain URLs or the public model index.
 - Upload locally trained RVC v2 models as zip archives.
 
-### Training
-- Full training pipeline in the **Training** tab: dataset slicing → F0 +
-  HuBERT feature extraction (RMVPE / RMVPE+ / HPA-RMVPF hybrid modes) → FAISS
-  index building → model training with a live log and a stop button.
-- Configurable sample rate (32k/40k/48k), vocoder (HiFi-GAN, MRF HiFi-GAN,
-  RefineGAN), optimizer (AdamW, AdaBelief, PolOpt), custom or built-in
-  pretrains, checkpoint resume and TensorBoard embedding.
-
 ### Running
 ```bash
 pip install -r requirements.txt   # apt packages: aria2, ffmpeg, sox (packages.txt)
@@ -58,10 +50,10 @@ public `*.gradio.live` URL that proxies every route) and mounts:
 | Route        | Content                                                     |
 | ------------ | ----------------------------------------------------------- |
 | `/webui/`    | Custom frontend (vanilla HTML/CSS/JS, no build step)         |
-| `/api/v1/…`  | REST API (`programs/webui/api.py`): models, inference jobs, model download/upload, training steps, file serving |
+| `/api/v1/…`  | REST API (`programs/webui/api.py`): models, inference jobs, model download/upload, file serving |
 | `/`          | Redirect to the custom UI                                    |
 
-Jobs (cover generation, model downloads, training steps) run in background
+Jobs (cover generation, model downloads) run in background
 threads and are polled from the browser; a single public URL serves both the
 frontend and the API. The classic Gradio UI remains available on the same
 installation through mode 1.

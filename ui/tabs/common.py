@@ -48,9 +48,26 @@ def get_current_models(models_dir):
     return [item for item in models_list if item not in items_to_remove]
 
 
+def get_selectable_models(models_dir=rvc_models_dir):
+    """Models the Inference dropdown can offer.
+
+    Installed models come first; on a fresh install (empty ``rvc_models``)
+    the names from the public index are offered instead so the list is never
+    empty — selecting one auto-downloads it before conversion.
+    """
+    installed = get_current_models(models_dir)
+    if installed:
+        return installed
+    try:
+        public = load_public_models_json()
+        return [model['name'] for model in public.get('voice_models', [])]
+    except Exception:
+        return []
+
+
 def update_models_list():
     """Refresh callback for the voice models dropdown."""
-    return gr.update(choices=get_current_models(rvc_models_dir))
+    return gr.update(choices=get_selectable_models(), value=None)
 
 
 def load_public_models_json():

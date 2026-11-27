@@ -252,7 +252,84 @@ def raise_exception(error_msg, is_webui):
         raise Exception(error_msg)
 
 
+def _download_public_voice_model(voice_model, is_webui):
+    """Auto-download a voice model from the public index when it is selected
+    in the Inference tab but not installed yet.
+
+    Reads ``assets/rvc_models/public_models.json`` (the same index used by the
+    Download-model tab), downloads the model zip (or multi-file links), and
+    extracts it into ``rvc_models_dir``. Raises a clear error when the name
+    is not in the index and no direct URL is available.
+    """
+    import json as _json
+    import zipfile as _zipfile
+    import urllib.request as _urlrequest
+
+    index_path = os.path.join(rvc_models_dir, 'public_models.json')
+    entry = None
+    if os.path.isfile(index_path):
+        with open(index_path, encoding='utf8') as index_file:
+            index_data = _json.load(index_file)
+        for record in index_data.get('voice_models', []):
+            if record.get('name') == voice_model and record.get('url'):
+                entry = record
+                break
+
+    model_dir = os.path.join(rvc_models_dir, voice_model)
+    if entry is None:
+        error_msg = (f'Voice model "{voice_model}" is not installed and was not found in the public '
+                     f'model index. Download it first in the "Download model" tab.')
+        raise_exception(error_msg, is_webui)
+        return
+
+    url = entry['url']
+    logger.info('[~] Voice model "%s" is not installed - downloading it from the public index...', voice_model)
+    display_progress(f'[~] Downloading voice model "{voice_model}"...', 0.05, is_webui)
+
+    if 'pixeldrain.com' in url:
+        url = f'https://pixeldrain.com/api/file/{url.split("/")[-1]}'
+
+    if ',' in url:
+        # Multi-file link (model.pth + model.index downloaded separately).
+        os.makedirs(model_dir, exist_ok=True)
+        for single_url in [u.strip() for u in url.split(',') if u.strip()]:
+            single_url = single_url.replace('?download=true', '')
+            file_path = os.path.join(model_dir, single_url.split('/')[-1])
+            if not os.path.exists(file_path):
+                _urlrequest.urlretrieve(single_url, file_path)
+        return
+
+    zip_name = url.split('/')[-1]
+    zip_path = os.path.join(rvc_models_dir, zip_name)
+    _urlrequest.urlretrieve(url, zip_path)
+    with _zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(model_dir)
+    os.remove(zip_path)
+
+    # Flatten sub-folders and keep only the model/index files, mirroring the
+    # extraction behaviour of the Download-model tab.
+    model_filepath, index_filepath = None, None
+    for root, _dirs, files in os.walk(model_dir):
+        for name in files:
+            if name.endswith('.index') and os.stat(os.path.join(root, name)).st_size > 1024 * 100:
+                index_filepath = os.path.join(root, name)
+            if name.endswith('.pth') and os.stat(os.path.join(root, name)).st_size > 1024 * 1024 * 40:
+                model_filepath = os.path.join(root, name)
+    if model_filepath:
+        os.rename(model_filepath, os.path.join(model_dir, os.path.basename(model_filepath)))
+    if index_filepath:
+        os.rename(index_filepath, os.path.join(model_dir, os.path.basename(index_filepath)))
+    for filepath in os.listdir(model_dir):
+        if os.path.isdir(os.path.join(model_dir, filepath)):
+            shutil.rmtree(os.path.join(model_dir, filepath))
+    logger.info('[+] Voice model "%s" installed.', voice_model)
+
+
 def get_rvc_model(voice_model, is_webui):
+    model_dir = os.path.join(rvc_models_dir, voice_model)
+    if not os.path.isdir(model_dir) or not os.listdir(model_dir):
+        # The model was selected from the public list but not downloaded yet.
+        _download_public_voice_model(voice_model, is_webui)
     rvc_model_filename, rvc_index_filename = None, None
     model_dir = os.path.join(rvc_models_dir, voice_model)
     for file in os.listdir(model_dir):

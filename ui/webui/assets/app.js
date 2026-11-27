@@ -54,7 +54,6 @@ document.querySelectorAll(".tab").forEach((button) => {
     document.querySelectorAll(".tab").forEach((b) => b.classList.toggle("active", b === button));
     document.querySelectorAll(".panel").forEach((panel) => { panel.hidden = panel.id !== `tab-${button.dataset.tab}`; });
     if (button.dataset.tab === "models") loadModelsTab();
-    if (button.dataset.tab === "train") refreshTrainState();
   });
 });
 
@@ -86,8 +85,6 @@ function setLogText(text) {
   $("log-output").textContent = text || "(empty)";
   const pre = $("log-output");
   pre.scrollTop = pre.scrollHeight;
-  $("train-log").textContent = text || "(empty)";
-  $("train-log").scrollTop = $("train-log").scrollHeight;
 }
 
 function stopPolling() {
@@ -121,7 +118,6 @@ async function watchJob(jobId, onFinished) {
       } else {
         toast("Task stopped.", "info");
       }
-      refreshTrainState();
     }
   };
   await poll();
@@ -197,7 +193,18 @@ async function loadOptions() {
   state.options = await api("/options");
   const options = state.options;
 
-  fillSelect("voice-model", options.voice_models.map((m) => m.name));
+  // Installed models first; fall back to the public index on a fresh install
+  // so the voice-model dropdown is never empty (selection auto-downloads).
+  let modelChoices = options.voice_models.map((m) => m.name);
+  if (!modelChoices.length) {
+    try {
+      const pub = await api("/public-models");
+      modelChoices = pub.models.map((m) => m.name);
+    } catch (error) {
+      modelChoices = [];
+    }
+  }
+  fillSelect("voice-model", modelChoices);
   fillSelect("backing-model", options.voice_models.map((m) => m.name));
   fillSelect("f0-method", options.f0_methods);
   fillSelect("embedder-model", options.embedders);
@@ -220,12 +227,6 @@ async function loadOptions() {
   fillSelect("denoise-model-name", separation.denoise || []);
   fillSelect("deecho-model-name", separation.deecho || []);
   $("separation-warn").hidden = !!options.separation_ready;
-
-  fillSelect("train-sample-rate", options.train.sample_rates);
-  fillSelect("train-f0-method", options.train.f0_methods);
-  fillSelect("train-vocoder", options.train.vocoders);
-  fillSelect("train-optimizer", options.train.optimizers);
-  refreshPretrains();
 
   $("models-hint").textContent = options.voice_models.length
     ? `${options.voice_models.length} model(s) installed.`
@@ -341,7 +342,6 @@ bindSlider("segment-len", (v) => Number(v).toFixed(1));
 bindSlider("include-mutes");
 bindSlider("total-epoch");
 bindSlider("save-every-epoch");
-bindSlider("train-batch-size");
 
 $("f0-method").addEventListener("change", () => { $("crepe-hop-block").hidden = $("f0-method").value !== "crepe"; });
 $("infer-backing-vocals").addEventListener("change", () => { $("backing-block").hidden = !$("infer-backing-vocals").checked; });
@@ -574,154 +574,6 @@ $("upload-model-btn").addEventListener("click", async () => {
       renderInstalledModels().catch(() => {});
       refreshVoiceModels().catch(() => {});
     });
-  } catch (error) {
-    toast(error.message, "error");
-  }
-});
-
-/* -------------------------------------------------------------- train tab */
-
-function renderTrainState(stateInfo) {
-  const chips = $("train-state-chips");
-  chips.innerHTML = "";
-  const addChip = (label, on) => {
-    const chip = document.createElement("span");
-    chip.className = `chip ${on ? "state-on" : "state-off"}`;
-    chip.textContent = `${on ? "✓" : "○"} ${label}`;
-    chips.appendChild(chip);
-  };
-  addChip("dataset sliced", stateInfo.sliced);
-  addChip("features extracted", stateInfo.features);
-  addChip("index built", stateInfo.index);
-  addChip("ready to train", stateInfo.filelist);
-  $("slice-btn").disabled = stateInfo.sliced;
-  $("extract-btn").disabled = !stateInfo.sliced || stateInfo.features;
-  $("index-btn").disabled = !stateInfo.features || stateInfo.index;
-}
-
-let trainStateTimer = null;
-$("train-model-name").addEventListener("input", () => {
-  clearTimeout(trainStateTimer);
-  trainStateTimer = setTimeout(refreshTrainState, 400);
-});
-
-async function refreshTrainState() {
-  const name = value("train-model-name").trim();
-  if (!name) {
-    renderTrainState({ sliced: false, features: false, index: false, filelist: false });
-    return;
-  }
-  try {
-    renderTrainState(await api(`/train/status?model=${encodeURIComponent(name)}`));
-  } catch (_) { /* server hiccup — ignore */ }
-}
-
-async function refreshPretrains() {
-  const vocoder = value("train-vocoder");
-  const rate = value("train-sample-rate");
-  // The selects are still empty while /options is loading — nothing to do.
-  if (!vocoder || !rate) return;
-  try {
-    const data = await api(`/train/pretrains?vocoder=${encodeURIComponent(vocoder)}&sample_rate=${encodeURIComponent(rate)}`);
-    fillSelect("train-pretrain", data.choices);
-    $("train-pretrain").value = data.default;
-  } catch (error) {
-    toast(`Failed to load the pretrain list: ${error.message}`, "error");
-  }
-}
-$("train-vocoder").addEventListener("change", refreshPretrains);
-$("train-sample-rate").addEventListener("change", refreshPretrains);
-
-$("dataset-files").addEventListener("change", async (event) => {
-  const files = [...event.target.files];
-  const name = value("train-model-name").trim();
-  if (!files.length) return;
-  if (!name) { toast("Set the model name before uploading the dataset.", "error"); event.target.value = ""; return; }
-  const form = new FormData();
-  files.forEach((file) => form.append("files", file));
-  form.append("name", name);
-  try {
-    const response = await api("/train/dataset-upload", { method: "POST", body: form });
-    toast(`${response.saved} file(s) uploaded to the dataset.`, "success");
-    renderTrainState(response.state);
-  } catch (error) {
-    toast(error.message, "error");
-  }
-});
-
-function trainName() {
-  const name = value("train-model-name").trim();
-  if (!name) { toast("Set the model name first.", "error"); return null; }
-  return name;
-}
-
-/* Name + sample rate for every training action. The rate select stays empty
- * until /options finishes loading, and Number("") is 0 — catch that here so
- * the job never starts with a broken 0 Hz / empty-pretrain request. */
-function trainNameAndRate() {
-  const name = trainName();
-  if (!name) return null;
-  const rate = Number(value("train-sample-rate"));
-  if (!rate) {
-    toast("UI options are still loading — sample rate is not ready yet. Try again in a few seconds.", "error");
-    return null;
-  }
-  return { name, rate };
-}
-
-$( "slice-btn").addEventListener("click", () => {
-  const common = trainNameAndRate();
-  if (!common) return;
-  startJob("/jobs/train-slice", {
-    model_name: common.name,
-    dataset_folder: value("dataset-folder"),
-    sample_rate: common.rate,
-    segment_len: Number(value("segment-len")),
-    normalize: checked("train-normalize"),
-  });
-});
-
-$( "extract-btn").addEventListener("click", () => {
-  const common = trainNameAndRate();
-  if (!common) return;
-  startJob("/jobs/train-extract", {
-    model_name: common.name,
-    sample_rate: common.rate,
-    f0_method: value("train-f0-method"),
-    include_mutes: Number(value("include-mutes")),
-  });
-});
-
-$("index-btn").addEventListener("click", () => {
-  const name = trainName();
-  if (!name) return;
-  startJob("/jobs/train-index", { model_name: name });
-});
-
-$("train-btn").addEventListener("click", () => {
-  const common = trainNameAndRate();
-  if (!common) return;
-  startJob("/jobs/train-start", {
-    model_name: common.name,
-    sample_rate: common.rate,
-    total_epoch: Number(value("total-epoch")),
-    save_every_epoch: Number(value("save-every-epoch")),
-    batch_size: Number(value("train-batch-size")),
-    vocoder: value("train-vocoder"),
-    optimizer: value("train-optimizer"),
-    gpus: value("train-gpus"),
-    pretrain: value("train-pretrain") || "No pretrain",
-    pretrain_g: value("train-pretrain-g"),
-    pretrain_d: value("train-pretrain-d"),
-    save_to_zip: checked("save-to-zip"),
-    save_half: checked("save-half"),
-  });
-});
-
-$("train-stop-btn").addEventListener("click", async () => {
-  try {
-    const response = await api("/jobs/stop", { method: "POST" });
-    toast(response.message, "info");
   } catch (error) {
     toast(error.message, "error");
   }

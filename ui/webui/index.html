@@ -31,7 +31,6 @@
   <nav class="tabs" role="tablist">
     <button class="tab active" data-tab="inference" role="tab">Inference</button>
     <button class="tab" data-tab="models" role="tab">Models</button>
-    <button class="tab" data-tab="train" role="tab">Train</button>
   </nav>
 
   <main class="container">
@@ -296,76 +295,6 @@
 
     </section>
 
-    <!-- ================================ TRAIN ================================ -->
-    <section class="panel" id="tab-train" hidden>
-
-      <div class="card">
-        <div class="card-head"><h2>Model name</h2></div>
-        <label class="field"><span>Experiment name</span><input type="text" id="train-model-name" placeholder="MyVoice" /></label>
-        <div class="chips" id="train-state-chips"></div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><h2>Data preparation</h2></div>
-        <div class="grid-2">
-          <label class="field"><span>Dataset folder <em>(server-side path)</em></span>
-            <input type="text" id="dataset-folder" placeholder="/path/to/audio" /></label>
-          <label class="field"><span>…or upload audio files</span><input type="file" id="dataset-files" multiple accept=".wav,.mp3,.flac,.ogg,.opus,.m4a,.aac,.wma,.aiff,.webm,.mp4" /></label>
-        </div>
-        <div class="grid-4">
-          <label class="field"><span>Sample rate (Hz)</span><select id="train-sample-rate"></select></label>
-          <label class="field"><span>F0 method</span><select id="train-f0-method"></select></label>
-          <label class="slider-field"><span>Segment (sec) — <b id="segment-len-val">3.0</b></span>
-            <input type="range" id="segment-len" min="1" max="10" step="0.1" value="3" /></label>
-          <label class="slider-field"><span>Mute files — <b id="include-mutes-val">2</b></span>
-            <input type="range" id="include-mutes" min="0" max="10" step="1" value="2" /></label>
-        </div>
-        <label class="check"><input type="checkbox" id="train-normalize" checked /> Normalize loudness</label>
-        <div class="btn-row">
-          <button class="btn btn-primary" id="slice-btn">1 · Slice</button>
-          <button class="btn btn-primary" id="extract-btn" disabled>2 · Extract</button>
-          <button class="btn" id="index-btn" disabled>3 · Build index</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><h2>Training</h2></div>
-        <div class="grid-4">
-          <label class="slider-field"><span>Total epochs — <b id="total-epoch-val">300</b></span>
-            <input type="range" id="total-epoch" min="1" max="10000" step="1" value="300" /></label>
-          <label class="slider-field"><span>Save every N epochs — <b id="save-every-epoch-val">25</b></span>
-            <input type="range" id="save-every-epoch" min="1" max="100" step="1" value="25" /></label>
-          <label class="slider-field"><span>Batch size — <b id="train-batch-size-val">8</b></span>
-            <input type="range" id="train-batch-size" min="1" max="128" step="1" value="8" /></label>
-        </div>
-        <details class="accordion">
-          <summary>Advanced</summary>
-          <div class="grid-4">
-            <label class="field"><span>Vocoder</span><select id="train-vocoder"></select></label>
-            <label class="field"><span>Optimizer</span><select id="train-optimizer"></select></label>
-            <label class="field"><span>GPU</span><input type="text" id="train-gpus" value="0" /></label>
-            <label class="field"><span>Pretrain</span><select id="train-pretrain"></select></label>
-            <label class="field"><span>Custom pretrain G (path/URL)</span><input type="text" id="train-pretrain-g" /></label>
-            <label class="field"><span>Custom pretrain D (path/URL)</span><input type="text" id="train-pretrain-d" /></label>
-          </div>
-          <div class="check-grid">
-            <label class="check"><input type="checkbox" id="save-to-zip" /> Build ZIP at the end</label>
-            <label class="check"><input type="checkbox" id="save-half" checked /> float16 weights</label>
-          </div>
-        </details>
-        <div class="btn-row">
-          <button class="btn btn-primary" id="train-btn">Start training</button>
-          <button class="btn btn-danger" id="train-stop-btn">Stop process</button>
-        </div>
-        <p class="hint">TensorBoard: the embedded board lives in the Gradio UI; in this UI you can start it via <code>POST /api/v1/train/tensorboard</code>.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><h2>Task log</h2></div>
-        <pre class="log" id="train-log"></pre>
-      </div>
-
-    </section>
   </main>
 
   <!-- Task log sits below the page content, in the normal document flow,

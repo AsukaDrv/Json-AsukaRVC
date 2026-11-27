@@ -114,12 +114,6 @@ def options():
         "embedders": ["contentvec", "chinese-hubert-base", "japanese-hubert-base", "korean-hubert-base"],
         "colab": in_colab(),
         "drive_folder": DEFAULT_DRIVE_FOLDER,
-        "train": {
-            "sample_rates": [32000, 40000, 48000],
-            "vocoders": ["HiFi-GAN", "MRF HiFi-GAN", "RefineGAN"],
-            "optimizers": ["AdamW", "AdaBelief", "PolOpt"],
-            "f0_methods": ["rmvpe", "rmvpe+", "hpa-rmvpe"],
-        },
         "separation_ready": True,
     }
     try:
@@ -380,7 +374,15 @@ def start_inference(req: InferenceRequest):
         raise HTTPException(status_code=400, detail="Select a voice model first.")
     known_models = {model["name"] for model in _list_voice_models()}
     if req.voice_model not in known_models:
-        raise HTTPException(status_code=400, detail=f"Voice model '{req.voice_model}' is not installed.")
+        # Not installed yet: accept it when it exists in the public index —
+        # the pipeline auto-downloads it before voice conversion.
+        try:
+            data = load_public_models_json()
+            public_names = {model["name"] for model in data.get("voice_models", [])}
+        except Exception:
+            public_names = set()
+        if req.voice_model not in public_names:
+            raise HTTPException(status_code=400, detail=f"Voice model '{req.voice_model}' is not installed and is not in the public model index.")
     if req.save_drive and not in_colab():
         raise HTTPException(status_code=400, detail="Google Drive save is only available in Google Colab.")
 
@@ -488,263 +490,6 @@ def save_drive_job(req: SaveDriveRequest):
     except BusyError as error:
         raise HTTPException(status_code=409, detail=str(error)) from error
     return {"job_id": job.id}
-
-
-# ------------------------------------------------------------------- training
-
-
-class TrainSliceRequest(BaseModel):
-    model_name: str
-    dataset_folder: str = ""
-    sample_rate: int = 48000
-    segment_len: float = 3.0
-    normalize: bool = True
-
-
-class TrainExtractRequest(BaseModel):
-    model_name: str
-    sample_rate: int = 48000
-    f0_method: str = "rmvpe"
-    include_mutes: int = 2
-
-
-class TrainStartRequest(BaseModel):
-    model_name: str
-    sample_rate: int = 48000
-    total_epoch: int = 300
-    save_every_epoch: int = 25
-    batch_size: int = 8
-    vocoder: str = "HiFi-GAN"
-    optimizer: str = "AdamW"
-    gpus: str = "0"
-    pretrain: str = ""
-    pretrain_g: str = ""
-    pretrain_d: str = ""
-    save_to_zip: bool = False
-    save_half: bool = True
-
-
-class TrainIndexRequest(BaseModel):
-    model_name: str
-
-
-def _train_module():
-    """The Gradio Training tab builders: reused so the web UI runs the exact
-    same validated pipeline commands (same subprocess launcher, same
-    pretrain/config checks). Raises ``gr.Error`` on invalid input, which the
-    job manager converts into a job error message."""
-    from ui.tabs.train import train as train_module
-
-    return train_module
-
-
-def _train_state(model_name: str) -> dict:
-    """Artifact availability for the three data-preparation steps."""
-    train_module = _train_module()
-    name = (model_name or "").strip()
-    if not name:
-        return {"name": "", "sliced": False, "features": False, "index": False, "filelist": False}
-    exp_dir = train_module._exp_dir(name)
-    data_dir = os.path.join(exp_dir, "data")
-
-    def _has_files(path: str) -> bool:
-        try:
-            return os.path.isdir(path) and bool(os.listdir(path))
-        except OSError:
-            return False
-
-    return {
-        "name": name,
-        "sliced": _has_files(os.path.join(data_dir, "sliced_audios")),
-        "features": _has_files(os.path.join(data_dir, "features")),
-        "index": os.path.isfile(os.path.join(exp_dir, f"{name}.index")),
-        "filelist": os.path.isfile(os.path.join(data_dir, "filelist.txt")),
-    }
-
-
-@router.get("/train/status")
-def train_status(model: str = Query("", alias="model")):
-    return _train_state(model)
-
-
-@router.get("/train/pretrains")
-def train_pretrains(vocoder: str = "HiFi-GAN", sample_rate: int = 48000):
-    from assets.pretrains import default_pretrain, pretrain_choices
-
-    return {
-        "choices": pretrain_choices(vocoder, sample_rate),
-        "default": default_pretrain(vocoder, sample_rate),
-    }
-
-
-def _drain_into_log(generator, job) -> None:
-    """Consume a ``ui.utils.jobs.run_job``-style generator, streaming every
-    accumulated log snapshot into the job so the browser can poll it."""
-    for text in generator:
-        manager.set_log(job, text)
-
-
-@router.post("/jobs/train-slice")
-def train_slice(req: TrainSliceRequest):
-    train_module = _train_module()
-    folder = (req.dataset_folder or "").strip()
-    _validate_train_sample_rate(req.sample_rate)
-
-    def _run(job):
-        files = None
-        if not folder:
-            # Fall back to files uploaded earlier into the experiment dataset dir.
-            dataset_dir = os.path.join(train_module._exp_dir(req.model_name), "dataset")
-            if os.path.isdir(dataset_dir):
-                files = [
-                    os.path.join(dataset_dir, name)
-                    for name in sorted(os.listdir(dataset_dir))
-                    if name.lower().endswith((".wav", ".mp3", ".flac", ".ogg", ".opus", ".m4a", ".aac", ".wma", ".aiff", ".webm", ".mp4"))
-                ]
-        _drain_into_log(
-            train_module._slice_dataset(
-                req.model_name, files, folder or None, req.sample_rate, req.segment_len, req.normalize
-            ),
-            job,
-        )
-
-    return {"job_id": _start_train_job("train-slice", f"Dataset slicing '{req.model_name}'", _run)}
-
-
-@router.post("/jobs/train-extract")
-def train_extract(req: TrainExtractRequest):
-    train_module = _train_module()
-    _validate_train_sample_rate(req.sample_rate)
-
-    def _run(job):
-        _drain_into_log(
-            train_module._extract_features(req.model_name, req.sample_rate, req.f0_method, req.include_mutes),
-            job,
-        )
-
-    return {"job_id": _start_train_job("train-extract", f"Feature extraction '{req.model_name}'", _run)}
-
-
-@router.post("/jobs/train-index")
-def train_index(req: TrainIndexRequest):
-    train_module = _train_module()
-
-    def _run(job):
-        _drain_into_log(train_module._train_index(req.model_name), job)
-
-    return {"job_id": _start_train_job("train-index", f"Index '{req.model_name}'", _run)}
-
-
-def _validate_train_sample_rate(sample_rate) -> int:
-    """Reject invalid sample rates with a clear message instead of the
-    confusing "Pretrain set '' has no files for 0 Hz" error."""
-    rate = int(sample_rate or 0)
-    if rate not in (32000, 40000, 48000):
-        raise HTTPException(
-            status_code=400,
-            detail="Sample rate must be one of: 32000, 40000, 48000 "
-            f"(got {rate or 'none'}). The page may still be loading — try again in a moment.",
-        )
-    return rate
-
-
-@router.post("/jobs/train-start")
-def train_start(req: TrainStartRequest):
-    train_module = _train_module()
-    req.sample_rate = _validate_train_sample_rate(req.sample_rate)
-    if not (req.pretrain or "").strip():
-        # A web client that submits before the dropdowns loaded sends an empty
-        # pretrain — treat it like the Gradio tab's "No pretrain" choice.
-        from assets.pretrains import NO_PRETRAIN
-
-        req.pretrain = NO_PRETRAIN
-
-    def _run(job):
-        _drain_into_log(
-            train_module._train_model(
-                req.model_name,
-                req.sample_rate,
-                req.total_epoch,
-                req.save_every_epoch,
-                req.batch_size,
-                req.vocoder,
-                req.optimizer,
-                req.gpus,
-                req.pretrain,
-                req.pretrain_g,
-                req.pretrain_d,
-                req.save_to_zip,
-                req.save_half,
-            ),
-            job,
-        )
-
-    return {"job_id": _start_train_job("train-start", f"Training '{req.model_name}'", _run)}
-
-
-def _start_train_job(kind: str, title: str, runner) -> str:
-    """Register a training job; the runner receives the Job instance and
-    streams the reused Gradio-tab generators into the job log for polling."""
-    try:
-        job = manager.start_callable(kind, title, runner, pass_job=True)
-    except BusyError as error:
-        raise HTTPException(status_code=409, detail=str(error)) from error
-    return job.id
-
-
-@router.post("/train/dataset-upload")
-async def train_dataset_upload(
-    files: list[UploadFile] = File(...),
-    name: str = Form(...),
-):
-    """Save dataset audio files into the experiment dataset directory."""
-    train_module = _train_module()
-    model_name = (name or "").strip()
-    if not model_name:
-        raise HTTPException(status_code=400, detail="Model name is required.")
-    dataset_dir = os.path.join(train_module._exp_dir(model_name), "dataset")
-    os.makedirs(dataset_dir, exist_ok=True)
-    saved = 0
-    for upload in files:
-        file_name = _sanitize_filename(upload.filename or "")
-        if not file_name.lower().endswith((".wav", ".mp3", ".flac", ".ogg", ".opus", ".m4a", ".aac", ".wma", ".aiff", ".webm", ".mp4")):
-            continue
-        with open(os.path.join(dataset_dir, file_name), "wb") as out_file:
-            shutil.copyfileobj(upload.file, out_file)
-        saved += 1
-    if not saved:
-        raise HTTPException(status_code=400, detail="There is no audio among the attached files.")
-    return {"saved": saved, "dataset_dir": dataset_dir, "state": _train_state(model_name)}
-
-
-@router.post("/train/tensorboard")
-def train_tensorboard(port: int = Query(0, description="TensorBoard port (0 = default 6006).")):
-    """Launch the embedded TensorBoard server (same helper as the Gradio tab).
-
-    Returns a link with pinned loss charts, or HTTP 400 when TensorBoard
-    cannot be launched in this environment.
-    """
-    from ui.utils.tensorboard import DEFAULT_TENSORBOARD_PORT, launch_tensorboard
-
-    train_module = _train_module()
-    try:
-        logs_dir = train_module._require_logs_dir()
-    except Exception as error:  # gr.Error or RuntimeError (e.g. Colab without Drive)
-        raise HTTPException(status_code=400, detail=str(error)) from error
-
-    try:
-        url = launch_tensorboard(logs_dir, int(port or DEFAULT_TENSORBOARD_PORT))
-    except Exception as error:
-        raise HTTPException(status_code=400, detail=f"TensorBoard launch error: {error}") from error
-
-    if url.startswith("TensorBoard launch error"):
-        raise HTTPException(status_code=400, detail=url)
-    return {"url": url, "logs_dir": logs_dir}
-
-
-@router.post("/jobs/stop")
-def stop_job():
-    return {"message": manager.stop()}
 
 
 # ----------------------------------------------------------------------- jobs

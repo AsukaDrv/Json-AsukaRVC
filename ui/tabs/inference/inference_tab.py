@@ -7,6 +7,7 @@ from ui.tabs.common import (
     get_current_models,
     get_separation_model_names,
     process_file_upload,
+    get_selectable_models,
     rvc_models_dir,
     show_backing_vocals_rvc_inputs,
     show_hop_slider,
@@ -19,6 +20,7 @@ def inference_tab():
     from programs.core import song_cover_pipeline, yt_download
 
     voice_models = get_current_models(rvc_models_dir)
+    selectable_models = get_selectable_models()
     separation_model_names = get_separation_model_names()
     vocal_model_names = separation_model_names['vocals']
     karaoke_model_names = separation_model_names['karaoke']
@@ -29,11 +31,11 @@ def inference_tab():
     with gr.Tab("Inference"):
         with gr.Row():
             rvc_model = gr.Dropdown(
-                voice_models,
-                value=('ayaka-jp' if 'ayaka-jp' in voice_models else (voice_models[0] if voice_models else None)),
+                selectable_models,
+                value=(selectable_models[0] if selectable_models else None),
                 label='Select Your Models',
-                allow_custom_value=True,
-                info='Populated from your installed models (assets/rvc_models) - use Refresh after downloading new ones.',
+                allow_custom_value=False,
+                info='Installed models first; on a fresh install the public model list is shown — selecting one auto-downloads it. Use Refresh after downloading new models.',
             )
             ref_btn = gr.Button('Refresh', variant='primary')
 

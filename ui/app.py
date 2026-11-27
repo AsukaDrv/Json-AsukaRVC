@@ -56,7 +56,7 @@ if __name__ == '__main__':
     else:
         # The classic Gradio UI needs the tab builders; the custom web UI does
         # not, so they are only imported in this branch.
-        from ui.tabs.tabs_main import downloader_tab, inference_tab, training_tab, upload_tab
+        from ui.tabs.tabs_main import downloader_tab, inference_tab, upload_tab
 
         # Gradio 6.0 moved the Blocks theme from the constructor to launch().
         # Older versions still expect it in the constructor, so pick the right
@@ -95,7 +95,6 @@ if __name__ == '__main__':
             inference_tab()
             downloader_tab()
             upload_tab()
-            training_tab()
 
         print("-----------")
         print("AsukaRVC V3")

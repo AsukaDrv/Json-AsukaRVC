@@ -12,52 +12,8 @@ version_config_paths = [
     os.path.join("v2", "32000.json"),
 ]
 
-# Base training configuration templates used by generate_config(). They are
-# resolved relative to this file so the training pipeline works regardless of
-# the process working directory.
-TRAINING_CONFIG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "training", "configs")
-
 # Inference configuration directory, resolved relative to this file.
 _CONFIGS_DIR = os.path.dirname(os.path.abspath(__file__))
-
-
-def generate_config(config_save_path, sample_rate=48000, vocoder="HiFi-GAN"):
-    """Create the training configuration file for a new experiment.
-
-    Reads the base template for the requested sample rate from
-    ``programs/rvc/training/configs/<rate>.json`` (falling back to the
-    inference v2 configuration of the same rate when the template is
-    missing), pins the selected vocoder, and writes the result to
-    ``config_save_path`` (parent directories are created as needed).
-
-    Args:
-        config_save_path: destination path of the experiment ``config.json``.
-        sample_rate: training sample rate, one of 32000 / 40000 / 48000.
-        vocoder: vocoder name, one of "HiFi-GAN", "MRF HiFi-GAN", "RefineGAN".
-    """
-    sample_rate = int(sample_rate)
-    template_path = os.path.join(TRAINING_CONFIG_DIR, f"{sample_rate}.json")
-    if os.path.isfile(template_path):
-        with open(template_path, "r", encoding="utf-8") as template_file:
-            config = json.load(template_file)
-    else:
-        # Fall back to the inference configuration: it carries the same
-        # architecture section used at inference time.
-        inference_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "v2", f"{sample_rate}.json"
-        )
-        with open(inference_path, "r", encoding="utf-8") as inference_file:
-            config = json.load(inference_file)
-
-    model_section = config.setdefault("model", {})
-    model_section["vocoder"] = vocoder
-    data_section = config.setdefault("data", {})
-    data_section["sample_rate"] = sample_rate
-
-    os.makedirs(os.path.dirname(config_save_path), exist_ok=True)
-    with open(config_save_path, "w", encoding="utf-8") as config_file:
-        json.dump(config, config_file, indent=2)
-    return config_save_path
 
 
 def singleton(cls):
