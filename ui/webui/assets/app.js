@@ -205,6 +205,7 @@ async function loadOptions() {
     }
   }
   fillSelect("voice-model", modelChoices);
+  updateCharacterImage(value("voice-model"));
   fillSelect("backing-model", options.voice_models.map((m) => m.name));
   fillSelect("f0-method", options.f0_methods);
   fillSelect("embedder-model", options.embedders);
@@ -250,10 +251,42 @@ function fillSelect(id, choices, defaultFirst = true) {
   }
 }
 
+/* Character preview shown above the voice-model selector. */
+
+async function updateCharacterImage(modelName) {
+  const wrap = $("character-image-wrap");
+  const img = $("character-image");
+  if (!wrap || !img) return;
+  if (!modelName) {
+    wrap.hidden = true;
+    img.removeAttribute("src");
+    return;
+  }
+  try {
+    const data = await api(`/character-image?model=${encodeURIComponent(modelName)}`);
+    if (data.url) {
+      img.src = data.url;
+      img.alt = `Character preview — ${modelName}`;
+      wrap.hidden = false;
+    } else {
+      wrap.hidden = true;
+      img.removeAttribute("src");
+    }
+  } catch (error) {
+    wrap.hidden = true;
+    img.removeAttribute("src");
+  }
+}
+
+$("voice-model").addEventListener("change", () => {
+  updateCharacterImage(value("voice-model"));
+});
+
 async function refreshVoiceModels() {
   const data = await api("/models");
   state.options.voice_models = data.models;
   fillSelect("voice-model", data.models.map((m) => m.name));
+  updateCharacterImage(value("voice-model"));
   fillSelect("backing-model", data.models.map((m) => m.name));
   $("models-hint").textContent = data.models.length
     ? `${data.models.length} model(s) installed.`

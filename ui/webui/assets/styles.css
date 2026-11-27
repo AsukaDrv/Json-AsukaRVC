@@ -426,3 +426,21 @@ input[type="range"]::-moz-range-thumb {
   font-size: 0.78rem; padding: 18px;
   border-top: 1px solid var(--border); margin-top: 20px;
 }
+
+/* --------------------------------------------------- character preview */
+
+.character-image {
+  margin: 0 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-elev-1, var(--bg-elev));
+  display: flex;
+  justify-content: center;
+}
+.character-image img {
+  max-width: 100%;
+  max-height: 260px;
+  object-fit: contain;
+  display: block;
+}

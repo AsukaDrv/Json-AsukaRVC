@@ -4,6 +4,7 @@ from programs.colab_drive import DEFAULT_DRIVE_FOLDER, in_colab
 from ui.tabs.common import (
     AUDIO_EXTENSIONS,
     IS_ZERO_GPU,
+    get_character_image,
     get_current_models,
     get_separation_model_names,
     process_file_upload,
@@ -12,6 +13,7 @@ from ui.tabs.common import (
     show_backing_vocals_rvc_inputs,
     show_hop_slider,
     swap_visibility,
+    update_character_image,
     update_models_list,
 )
 
@@ -29,10 +31,24 @@ def inference_tab():
     deecho_model_names = separation_model_names['deecho']
 
     with gr.Tab("Inference"):
+        default_model = selectable_models[0] if selectable_models else None
+        # Character preview shown above the model selector; hidden when the
+        # selected model has no image (see assets/rvc_models/character_images).
+        character_image = gr.Image(
+            value=get_character_image(default_model),
+            label='Character',
+            show_label=False,
+            interactive=False,
+            show_download_button=False,
+            show_share_button=False,
+            height=240,
+            visible=get_character_image(default_model) is not None,
+            elem_classes=['character-preview'],
+        )
         with gr.Row():
             rvc_model = gr.Dropdown(
                 selectable_models,
-                value=(selectable_models[0] if selectable_models else None),
+                value=default_model,
                 label='Select Your Models',
                 allow_custom_value=False,
                 info='Installed models first; on a fresh install the public model list is shown — selecting one auto-downloads it. Use Refresh after downloading new models.',
@@ -174,7 +190,10 @@ def inference_tab():
             generate_btn = gr.Button("Generate", variant='primary')
         ai_cover = gr.Audio(label='AI Cover')
 
-        ref_btn.click(update_models_list, None, outputs=rvc_model)
+        ref_btn.click(update_models_list, None, outputs=rvc_model).then(
+            update_character_image, inputs=rvc_model, outputs=character_image
+        )
+        rvc_model.change(update_character_image, inputs=rvc_model, outputs=character_image)
         is_webui = gr.Number(value=1, visible=False)
 
         generate_btn.click(

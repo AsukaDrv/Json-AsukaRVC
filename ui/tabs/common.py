@@ -65,6 +65,46 @@ def get_selectable_models(models_dir=rvc_models_dir):
         return []
 
 
+# Extensions accepted for character preview images.
+CHARACTER_IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.webp', '.gif']
+
+# Folder where users can drop per-model character images
+# (``<model_name>.png`` / ``.jpg`` / ... next to the installed model name).
+character_images_dir = os.path.join(rvc_models_dir, 'character_images')
+
+
+def get_character_image(model_name):
+    """Resolve the character preview image for a voice model.
+
+    Lookup order:
+      1. A local file ``character_images/<model_name>.<ext>`` inside the
+         rvc_models workspace (users simply drop images there).
+      2. The optional ``image`` field of the matching entry in
+         ``public_models.json`` (remote or local URL/path).
+
+    Returns ``None`` when no image is available; the UI hides the preview.
+    """
+    if not model_name:
+        return None
+    for ext in CHARACTER_IMAGE_EXTENSIONS:
+        image_path = os.path.join(character_images_dir, f'{model_name}{ext}')
+        if os.path.isfile(image_path):
+            return image_path
+    try:
+        for model in load_public_models_json().get('voice_models', []):
+            if model.get('name') == model_name and model.get('image'):
+                return model['image']
+    except Exception:
+        pass
+    return None
+
+
+def update_character_image(model_name):
+    """Refresh callback for the character preview image component."""
+    image = get_character_image(model_name)
+    return gr.update(value=image, visible=image is not None)
+
+
 def update_models_list():
     """Refresh callback for the voice models dropdown."""
     return gr.update(choices=get_selectable_models(), value=None)

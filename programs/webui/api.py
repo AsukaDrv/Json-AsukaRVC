@@ -19,6 +19,7 @@ import os
 import re
 import shutil
 import time
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -54,6 +55,7 @@ uploads_dir = os.path.join(os.getcwd(), "assets", "audios", "uploads")
 _ALLOWED_FILE_ROOTS = [
     os.path.realpath(output_dir),
     os.path.realpath(uploads_dir),
+    os.path.realpath(os.path.join(rvc_models_dir, 'character_images')),
 ]
 
 IS_ZERO_GPU = bool(os.getenv("SPACES_ZERO_GPU"))
@@ -155,6 +157,30 @@ def _list_voice_models() -> list[dict]:
 @router.get("/models")
 def list_models():
     return {"models": _list_voice_models()}
+
+
+@router.get("/character-image")
+def character_image(model: str = Query(...)):
+    """Character preview image for a voice model.
+
+    Returns ``{"model": ..., "url": null}`` when the model has no image so
+    the frontend can hide the preview element.
+    """
+    from ui.tabs.common import get_character_image
+
+    image = get_character_image(model)
+    if not image:
+        return {"model": model, "url": None}
+    if image.startswith(("http://", "https://")):
+        # Remote image (optional `image` field in public_models.json).
+        return {"model": model, "url": image}
+    resolved = os.path.realpath(image)
+    if not os.path.isfile(resolved):
+        return {"model": model, "url": None}
+    return {
+        "model": model,
+        "url": f"/api/v1/files?path={urllib.parse.quote(resolved)}",
+    }
 
 
 @router.get("/public-models")
