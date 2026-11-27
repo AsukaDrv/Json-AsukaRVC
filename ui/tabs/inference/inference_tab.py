@@ -39,6 +39,10 @@ def inference_tab():
             )
             ref_btn = gr.Button('Refresh', variant='primary')
 
+        with gr.Column():
+            pitch = gr.Slider(-3, 3, value=0, step=1, label='Pitch Change (Vocals ONLY)')
+            pitch_all = gr.Slider(-12, 12, value=0, step=1, label='Overall Pitch Change')
+
         with gr.Row():
 
             with gr.Column(visible=False) as yt_link_col:
@@ -59,10 +63,7 @@ def inference_tab():
                 show_yt_link_button = gr.Button('Paste YouTube link/Path to local file instead', visible=False)
                 song_input_file.upload(process_file_upload, inputs=[song_input_file], outputs=[local_file, song_input])
 
-            with gr.Column():
-                pitch = gr.Slider(-3, 3, value=0, step=1, label='Pitch Change (Vocals ONLY)')
-                pitch_all = gr.Slider(-12, 12, value=0, step=1, label='Overall Pitch Change')
-
+            
             show_file_upload_button.click(swap_visibility, outputs=[file_upload_col, yt_link_col, song_input, local_file])
             show_yt_link_button.click(swap_visibility, outputs=[yt_link_col, file_upload_col, song_input, local_file])
 
