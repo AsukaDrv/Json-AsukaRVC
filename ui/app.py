@@ -39,7 +39,6 @@ if __name__ == '__main__':
                              '"web" = the custom HTML/CSS/JS UI served by the same Gradio server '
                              '(REST API under /api/v1, frontend under /webui/).')
     parser.add_argument("--share", action="store_true", dest="share_enabled", default=False, help="Enable sharing")
-    ##parser.add_argument("--builtin-player", action="store_true", default=False, help="Use the builtin audio player")
     parser.add_argument("--listen", action="store_true", default=False, help="Make the WebUI reachable from your local network.")
     parser.add_argument('--listen-host', type=str, help='The hostname that the server will use.')
     parser.add_argument('--listen-port', type=int, help='The listening port that the server will use.')
@@ -96,7 +95,7 @@ if __name__ == '__main__':
             inference_tab()
             downloader_tab()
             upload_tab()
-            
+            training_tab()
 
         print("-----------")
         print("AsukaRVC V3")

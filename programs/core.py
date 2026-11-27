@@ -759,7 +759,7 @@ def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
                         is_webui=0, main_gain=0, backup_gain=0, inst_gain=0, index_rate=0.5, filter_radius=3,
                         rms_mix_rate=0.25, f0_method='rmvpe', crepe_hop_length=128, protect=0.33, pitch_change_all=0,
                         reverb_rm_size=0.15, reverb_wet=0.2, reverb_dry=0.8, reverb_damping=0.7, reverb_width=1.0,
-                        output_format='mp3', extra_denoise=False, steps=1,
+                        output_format='mp3', extra_denoise=False,
                         vocal_model_name="Mel-Roformer by KimberleyJSN",
                         karaoke_model_name="Mel-Roformer Karaoke by aufr33 and viperx",
                         dereverb_model_name="MDX23C DeReverb by aufr33 and jarredou",
@@ -784,8 +784,6 @@ def song_cover_pipeline(song_input, voice_model, pitch_change, keep_files,
     audio-separator for VR/MDX models) -> RVC voice conversion of the main
     vocals (and optionally of the backup vocals with a second RVC model) ->
     audio effects -> final mix.
-    The `steps` parameter is kept for backward compatibility but is unused by
-    RVC v2 models.
     """
     if not keep_files or IS_ZERO_GPU:
         clean_old_folders(output_dir, 14400)

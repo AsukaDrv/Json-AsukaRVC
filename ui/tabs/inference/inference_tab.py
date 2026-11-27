@@ -29,10 +29,11 @@ def inference_tab():
     with gr.Tab("Inference"):
         with gr.Row():
             rvc_model = gr.Dropdown(
-                ["ayaka-jp","ayato-jp","diluc-jp","eula-jp","fischl-jp","ganyu-jp","hutao-jp","kaeya-jp","keqing-jp","klee-jp","kokomi-jp","mona-jp","nahida-jp","nilou-jp","wanderer-jp","yaemiko-jp","yelan-jp","yoimiya-jp","zhongli-jp","aether-jp-v2","albedo-jp-v2","alhaitam-jp-v2","amber-jp-v2","ayaka-jp-v2","barbara-jp-v2","bennett-jp-v2","charlotte-jp-v2","chongyun-jp-v2","cyno-jp-v2","dehya-jp-v2","diona-jp-v2","dori-jp-v2","faruzan-jp-v2","furina-jp-v2","greaterLordRukkhadevata-jp-v2","itto-jp-v2","jean-jp-v2","kaveh-jp-v2","kazuha-jp-v2","kuki-jp-v2","lisa-jp-v2","lumine-jp-v2","lynette-jp-v2","lyney-jp-v2","nahida-jp-v2","navia-jp-v2","neuvillette-jp-v2","nilou-jp-v2","ningguang-jp-v2","noelle-jp-v2","paimon-jp-v2","qiqi-jp-v2","raiden-jp-v2","razor-jp-v2","rosaria-jp-v2","sara-jp-v2","shenhe-jp-v2","sigewinne-jp-v2","signora-jp-v2","sucrose-jp-v2","tartaglia-jp-v2","venti-jp-v2","wriothesley-jp-v2","xiao-jp-v2","yanfei-jp-v2","zhongli-jp-v2"], 
-                value='ayaka-jp',
+                voice_models,
+                value=('ayaka-jp' if 'ayaka-jp' in voice_models else (voice_models[0] if voice_models else None)),
                 label='Select Your Models',
-                info='auto = voices swap at vocal phrase boundaries (recommended) · alternate = timed swaps every N seconds, snapped to phrase pauses · sequential = A sings the first part, B the rest · overlap = both sing together',
+                allow_custom_value=True,
+                info='Populated from your installed models (assets/rvc_models) - use Refresh after downloading new ones.',
             )
             ref_btn = gr.Button('Refresh', variant='primary')
 
@@ -89,7 +90,8 @@ def inference_tab():
                     crepe_hop_length = gr.Slider(32, 320, value=128, step=1, visible=False, label='Crepe hop length')
                     f0_method.change(show_hop_slider, inputs=f0_method, outputs=crepe_hop_length)
             with gr.Row():
-                steps = gr.Slider(minimum=1, maximum=3, label="Steps", value=1, step=1, interactive=True)
+                batch_size = gr.Slider(minimum=1, maximum=32, label='Batch size (separation)', value=1, step=1, interactive=True)
+                use_tta = gr.Checkbox(False, label='TTA (test-time augmentation, slower but cleaner separation)')
                 extra_denoise = gr.Checkbox(True, label='Denoise')
                 keep_files = gr.Checkbox((False if IS_ZERO_GPU else True), label='Keep intermediate files',
                                          interactive=(False if IS_ZERO_GPU else True))
@@ -198,7 +200,7 @@ def inference_tab():
                 index_rate, filter_radius, rms_mix_rate, f0_method, crepe_hop_length, protect,
                 pitch_all,
                 reverb_rm_size, reverb_wet, reverb_dry, reverb_damping, reverb_width,
-                output_format, extra_denoise, steps,
+                output_format, extra_denoise,
                 vocal_model_name, karaoke_model_name, dereverb_model_name, denoise_model_name, deecho_model_name,
                 use_deecho, use_denoise, use_dereverb,
                 instruments_only, backing_vocals_volume,
@@ -212,19 +214,20 @@ def inference_tab():
                 hf_upload, hf_repo_id, hf_token,
                 duet_enabled, duet_model, duet_mode, duet_split, duet_interval, duet_pitch,
                 save_drive, drive_folder,
+                batch_size, use_tta,
             ],
             outputs=[ai_cover]
         )
         clear_btn.click(
-            lambda: [0, 0, 0, 0, 0.5, 3, 0.25, 0.33, 'rmvpe', 128, 0, 0.15, 0.2, 0.8, 0.7, 1.0, 'mp3', 'mp3', None, True, 1, True, False, False, False, 0, 0,
+            lambda: [0, 0, 0, 0, 0.5, 3, 0.25, 0.33, 'rmvpe', 128, 0, 0.15, 0.2, 0.8, 0.7, 1.0, 'mp3', 'mp3', None, True, True, False, False, False, 0, 0,
                      False, None, '', 0, 3, 0.5, 0.25, 0.33, 'rmvpe+', 128, 'wav', False, False, 'contentvec',
                      False, '', '',
                      False, None, 'auto', 50, 15, 0,
-                     False, DEFAULT_DRIVE_FOLDER],
+                     False, DEFAULT_DRIVE_FOLDER, 1, False],
             outputs=[pitch, main_gain, backup_gain, inst_gain, index_rate, filter_radius, rms_mix_rate,
                      protect, f0_method, crepe_hop_length, pitch_all, reverb_rm_size, reverb_wet,
                      reverb_dry, reverb_damping, reverb_width, output_format, export_format_final,
-                     ai_cover, extra_denoise, steps,
+                     ai_cover, extra_denoise,
                      use_dereverb, use_denoise, use_deecho, instruments_only,
                      backing_vocals_volume, inst_pitch_shift,
                      infer_backing_vocals, infer_backing_vocals_model, infer_backing_vocals_index,
@@ -233,5 +236,5 @@ def inference_tab():
                      export_format_rvc_back, split_audio_back, autotune_back, embedder_model_back,
                      hf_upload, hf_repo_id, hf_token,
                      duet_enabled, duet_model, duet_mode, duet_split, duet_interval, duet_pitch,
-                     save_drive, drive_folder]
+                     save_drive, drive_folder, batch_size, use_tta]
         )

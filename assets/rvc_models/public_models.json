@@ -1,138 +1,739 @@
 {
-    "model_data":[
-        ["v1", "ayaka-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/ayaka-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/d/d0/Character_Kamisato_Ayaka_Full_Wish.png"],
-        ["v1", "ayato-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/ayato-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/c/ce/Character_Kamisato_Ayato_Full_Wish.png"],
-        ["v1", "diluc-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/diluc-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/9/91/Character_Diluc_Full_Wish.png"],
-        ["v1", "eula-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/eula-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/6/6d/Character_Eula_Full_Wish.png"],
-        ["v1", "fischl-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/fischl-jp%20150%20epochs%2048k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/c/c3/Character_Fischl_Full_Wish.png"],
-        ["v1", "ganyu-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/ganyu-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/0/0e/Character_Ganyu_Full_Wish.png"],
-        ["v1", "hutao-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/hutao-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/5/59/Character_Hu_Tao_Full_Wish.png"],
-        ["v1", "kaeya-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/kaeya-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/8/8a/Character_Kaeya_Full_Wish.png"],
-        ["v1", "keqing-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/keqing-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/b/be/Character_Keqing_Full_Wish.png"],
-        ["v1", "klee-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/klee-jp%20150%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/8/88/Character_Klee_Full_Wish.png"],
-        ["v1", "kokomi-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/kokomi-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/2/24/Character_Sangonomiya_Kokomi_Full_Wish.png"],
-        ["v1", "mona-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/mona-jp%20100%20epochs%2048k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/0/0d/Character_Mona_Full_Wish.png"],
-        ["v1", "nahida-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/nahida-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/d/dd/Character_Nahida_Full_Wish.png"],
-        ["v1", "nilou-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/nilou-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/6/61/Character_Nilou_Full_Wish.png"],
-        ["v1", "wanderer-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/wanderer-jp%20100%20epochs%2048k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/d/de/Character_Wanderer_Full_Wish.png"],
-        ["v1", "yaemiko-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/yaemiko-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/4/49/Character_Yae_Miko_Full_Wish.png"],
-        ["v1", "yelan-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/yelan-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/2/23/Character_Yelan_Full_Wish.png"],
-        ["v1", "yoimiya-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/yoimiya-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/8/89/Character_Yoimiya_Full_Wish.png"],
-        ["v1", "zhongli-jp", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/zhongli-jp%20100%20epochs%2040k.zip", "https://static.wikia.nocookie.net/gensin-impact/images/c/c4/Character_Zhongli_Full_Wish.png"],
-        ["v2", "aether-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/aether-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/a/a1/Character_Traveler_Male_Game.png"],
-        ["v2", "albedo-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/albedo-jp%20110%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/5/51/Character_Albedo_Full_Wish.png"],
-        ["v2", "alhaitam-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/alhaitam-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/e/e4/Character_Alhaitham_Full_Wish.png"],
-        ["v2", "amber-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/amber-jp%20102%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/1/1c/Character_Amber_Full_Wish.png"],
-        ["v2", "ayaka-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/ayaka-jp%20101%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/d/d0/Character_Kamisato_Ayaka_Full_Wish.png"],
-        ["v2", "barbara-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/barbara-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/7/76/Character_Barbara_Full_Wish.png"],
-        ["v2", "bennett-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/bennett-jp%20104%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/2/27/Character_Bennett_Full_Wish.png"],
-        ["v2", "charlotte-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/charlotte-jp%20400%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/b/bf/Charlotte_Card.png"],
-        ["v2", "chongyun-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/chongyun-jp%20104%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/9/95/Character_Chongyun_Full_Wish.png"],
-        ["v2", "cyno-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/cyno-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/5/55/Character_Cyno_Full_Wish.png"],
-        ["v2", "dehya-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/dehya-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/3/35/Character_Dehya_Full_Wish.png"],
-        ["v2", "diona-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/diona-jp%20105%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/4/4e/Character_Diona_Full_Wish.png"],
-        ["v2", "dori-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/dori-jp%20208%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/4/48/Character_Dori_Full_Wish.png"],
-        ["v2", "faruzan-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/faruzan-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/a/a3/Character_Faruzan_Full_Wish.png"],
-        ["v2", "furina-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/furina-jp%20275%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/2/27/Furina_Card.png"],
-        ["v2", "greaterLordRukkhadevata-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/greaterLordRukkhadevata-jp%20750%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/5/54/NPC_Greater_Lord_Rukkhadevata.png"],
-        ["v2", "itto-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/itto-jp%20100%20epochs%2040k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/c/c3/Character_Arataki_Itto_Full_Wish.png"],
-        ["v2", "jean-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/jean-jp%20155%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/d/d6/Character_Jean_Full_Wish.png"],
-        ["v2", "kaveh-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/kaveh-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/c/c2/Character_Kaveh_Full_Wish.png"],
-        ["v2", "kazuha-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/kazuha-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/5/57/Character_Kaedehara_Kazuha_Full_Wish.png"],
-        ["v2", "kuki-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/kuki-jp%20101%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/1/1f/Character_Kuki_Shinobu_Full_Wish.png"],
-        ["v2", "lisa-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/lisa-jp%20104%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/5/53/Character_Lisa_Full_Wish.png"],
-        ["v2", "lumine-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/lumine-jp%20700%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/2/26/Character_Traveler_Female_Game.png"],
-        ["v2", "lynette-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/lynette-jp%20307%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/c/ce/Character_Lynette_Full_Wish.png"],
-        ["v2", "lyney-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/lyney-jp%20101%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/a/a3/Character_Lyney_Full_Wish.png"],
-        ["v2", "nahida-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/nahida-jp%20102%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/d/dd/Character_Nahida_Full_Wish.png"],
-        ["v2", "navia-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/navia-jp%20114%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/b/b7/NPC_Navia.png"],
-        ["v2", "neuvillette-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/neuvillette-jp%20105%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/5/5e/Character_Neuvillette_Full_Wish.png"],
-        ["v2", "nilou-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/nilou-jp%20102%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/6/61/Character_Nilou_Full_Wish.png"],
-        ["v2", "ningguang-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/ningguang-jp%20103%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/3/3a/Character_Ningguang_Full_Wish.png"],
-        ["v2", "noelle-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/noelle-jp%20101%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/0/08/Character_Noelle_Full_Wish.png"],
-        ["v2", "paimon-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/paimon-jp%20105%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/7/79/NPC_Paimon.png"],
-        ["v2", "qiqi-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/qiqi-jp%20409%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/f/fd/Character_Qiqi_Full_Wish.png"],
-        ["v2", "raiden-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/raiden-jp%20104%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/a/a3/Character_Raiden_Shogun_Full_Wish.png"],
-        ["v2", "razor-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/razor-jp%20303%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/d/d5/Character_Razor_Full_Wish.png"],
-        ["v2", "rosaria-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/rosaria-jp%20500%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/9/9b/Character_Rosaria_Full_Wish.png"],
-        ["v2", "sara-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/sara-jp%20208%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/6/69/Character_Kujou_Sara_Full_Wish.png"],
-        ["v2", "shenhe-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/shenhe-jp%20125%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/4/49/Character_Shenhe_Full_Wish.png"],
-        ["v2", "sigewinne-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/sigewinne-jp%20307%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/c/cf/NPC_Sigewinne.png"],
-        ["v2", "signora-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/signora-jp%201k%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/b/be/Enemy_La_Signora.png"],
-        ["v2", "sucrose-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/sucrose-jp%20104%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/9/9e/Character_Sucrose_Full_Wish.png"],
-        ["v2", "tartaglia-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/tartaglia-jp%20103%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/a/af/Character_Tartaglia_Full_Wish.png"],
-        ["v2", "venti-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/venti-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/2/2d/Character_Venti_Full_Wish.png"],
-        ["v2", "wriothesley-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/wriothesley-jp%20101%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/5/50/Character_Wriothesley_Full_Wish.png"],
-        ["v2", "xiao-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/xiao-jp%20100%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/5/5d/Character_Xiao_Full_Wish.png"],
-        ["v2", "yanfei-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/yanfei-jp%20107%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/b/b3/Character_Yanfei_Full_Wish.png"],
-        ["v2", "zhongli-jp-v2", "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/zhongli-jp%20102%20epochs%2048k%20v2.zip", "https://static.wikia.nocookie.net/gensin-impact/images/c/c4/Character_Zhongli_Full_Wish.png"]
+    "voice_models": [
+        {
+            "name": "ayaka-jp",
+            "description": "RVC V1 voice model of ayaka-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/ayaka-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "ayato-jp",
+            "description": "RVC V1 voice model of ayato-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/ayato-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "diluc-jp",
+            "description": "RVC V1 voice model of diluc-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/diluc-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "eula-jp",
+            "description": "RVC V1 voice model of eula-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/eula-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "fischl-jp",
+            "description": "RVC V1 voice model of fischl-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/fischl-jp%20150%20epochs%2048k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "ganyu-jp",
+            "description": "RVC V1 voice model of ganyu-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/ganyu-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "hutao-jp",
+            "description": "RVC V1 voice model of hutao-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/hutao-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "kaeya-jp",
+            "description": "RVC V1 voice model of kaeya-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/kaeya-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "keqing-jp",
+            "description": "RVC V1 voice model of keqing-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/keqing-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "klee-jp",
+            "description": "RVC V1 voice model of klee-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/klee-jp%20150%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "kokomi-jp",
+            "description": "RVC V1 voice model of kokomi-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/kokomi-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "mona-jp",
+            "description": "RVC V1 voice model of mona-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/mona-jp%20100%20epochs%2048k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "nahida-jp",
+            "description": "RVC V1 voice model of nahida-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/nahida-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "nilou-jp",
+            "description": "RVC V1 voice model of nilou-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/nilou-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "wanderer-jp",
+            "description": "RVC V1 voice model of wanderer-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/wanderer-jp%20100%20epochs%2048k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "yaemiko-jp",
+            "description": "RVC V1 voice model of yaemiko-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/yaemiko-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "yelan-jp",
+            "description": "RVC V1 voice model of yelan-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/yelan-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "yoimiya-jp",
+            "description": "RVC V1 voice model of yoimiya-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/yoimiya-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "zhongli-jp",
+            "description": "RVC V1 voice model of zhongli-jp from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v1/zhongli-jp%20100%20epochs%2040k.zip",
+            "tags": [
+                "v1",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "aether-jp-v2",
+            "description": "RVC V2 voice model of aether-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/aether-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "albedo-jp-v2",
+            "description": "RVC V2 voice model of albedo-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/albedo-jp%20110%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "alhaitam-jp-v2",
+            "description": "RVC V2 voice model of alhaitam-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/alhaitam-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "amber-jp-v2",
+            "description": "RVC V2 voice model of amber-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/amber-jp%20102%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "ayaka-jp-v2",
+            "description": "RVC V2 voice model of ayaka-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/ayaka-jp%20101%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "barbara-jp-v2",
+            "description": "RVC V2 voice model of barbara-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/barbara-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "bennett-jp-v2",
+            "description": "RVC V2 voice model of bennett-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/bennett-jp%20104%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "charlotte-jp-v2",
+            "description": "RVC V2 voice model of charlotte-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/charlotte-jp%20400%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "chongyun-jp-v2",
+            "description": "RVC V2 voice model of chongyun-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/chongyun-jp%20104%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "cyno-jp-v2",
+            "description": "RVC V2 voice model of cyno-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/cyno-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "dehya-jp-v2",
+            "description": "RVC V2 voice model of dehya-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/dehya-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "diona-jp-v2",
+            "description": "RVC V2 voice model of diona-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/diona-jp%20105%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "dori-jp-v2",
+            "description": "RVC V2 voice model of dori-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/dori-jp%20208%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "faruzan-jp-v2",
+            "description": "RVC V2 voice model of faruzan-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/faruzan-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "furina-jp-v2",
+            "description": "RVC V2 voice model of furina-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/furina-jp%20275%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "greaterLordRukkhadevata-jp-v2",
+            "description": "RVC V2 voice model of greaterLordRukkhadevata-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/greaterLordRukkhadevata-jp%20750%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "itto-jp-v2",
+            "description": "RVC V2 voice model of itto-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/itto-jp%20100%20epochs%2040k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "jean-jp-v2",
+            "description": "RVC V2 voice model of jean-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/jean-jp%20155%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "kaveh-jp-v2",
+            "description": "RVC V2 voice model of kaveh-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/kaveh-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "kazuha-jp-v2",
+            "description": "RVC V2 voice model of kazuha-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/kazuha-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "kuki-jp-v2",
+            "description": "RVC V2 voice model of kuki-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/kuki-jp%20101%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "lisa-jp-v2",
+            "description": "RVC V2 voice model of lisa-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/lisa-jp%20104%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "lumine-jp-v2",
+            "description": "RVC V2 voice model of lumine-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/lumine-jp%20700%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "lynette-jp-v2",
+            "description": "RVC V2 voice model of lynette-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/lynette-jp%20307%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "lyney-jp-v2",
+            "description": "RVC V2 voice model of lyney-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/lyney-jp%20101%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "nahida-jp-v2",
+            "description": "RVC V2 voice model of nahida-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/nahida-jp%20102%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "navia-jp-v2",
+            "description": "RVC V2 voice model of navia-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/navia-jp%20114%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "neuvillette-jp-v2",
+            "description": "RVC V2 voice model of neuvillette-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/neuvillette-jp%20105%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "nilou-jp-v2",
+            "description": "RVC V2 voice model of nilou-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/nilou-jp%20102%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "ningguang-jp-v2",
+            "description": "RVC V2 voice model of ningguang-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/ningguang-jp%20103%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "noelle-jp-v2",
+            "description": "RVC V2 voice model of noelle-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/noelle-jp%20101%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "paimon-jp-v2",
+            "description": "RVC V2 voice model of paimon-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/paimon-jp%20105%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "qiqi-jp-v2",
+            "description": "RVC V2 voice model of qiqi-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/qiqi-jp%20409%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "raiden-jp-v2",
+            "description": "RVC V2 voice model of raiden-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/raiden-jp%20104%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "razor-jp-v2",
+            "description": "RVC V2 voice model of razor-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/razor-jp%20303%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "rosaria-jp-v2",
+            "description": "RVC V2 voice model of rosaria-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/rosaria-jp%20500%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "sara-jp-v2",
+            "description": "RVC V2 voice model of sara-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/sara-jp%20208%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "shenhe-jp-v2",
+            "description": "RVC V2 voice model of shenhe-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/shenhe-jp%20125%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "sigewinne-jp-v2",
+            "description": "RVC V2 voice model of sigewinne-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/sigewinne-jp%20307%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "signora-jp-v2",
+            "description": "RVC V2 voice model of signora-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/signora-jp%201k%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "sucrose-jp-v2",
+            "description": "RVC V2 voice model of sucrose-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/sucrose-jp%20104%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "tartaglia-jp-v2",
+            "description": "RVC V2 voice model of tartaglia-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/tartaglia-jp%20103%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "venti-jp-v2",
+            "description": "RVC V2 voice model of venti-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/venti-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "wriothesley-jp-v2",
+            "description": "RVC V2 voice model of wriothesley-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/wriothesley-jp%20101%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "xiao-jp-v2",
+            "description": "RVC V2 voice model of xiao-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/xiao-jp%20100%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "yanfei-jp-v2",
+            "description": "RVC V2 voice model of yanfei-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/yanfei-jp%20107%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        },
+        {
+            "name": "zhongli-jp-v2",
+            "description": "RVC V2 voice model of zhongli-jp-v2 from the public Genshin Impact collection.",
+            "credit": "ArkanDash/rvc-genshin-impact (Hugging Face)",
+            "url": "https://huggingface.co/ArkanDash/rvc-genshin-impact/resolve/main/prezipped/v2/zhongli-jp%20102%20epochs%2048k%20v2.zip",
+            "tags": [
+                "v2",
+                "genshin-impact",
+                "japanese"
+            ]
+        }
     ],
-    "list": [
-        "ayaka-jp",
-        "ayato-jp",
-        "diluc-jp",
-        "eula-jp",
-        "fischl-jp",
-        "ganyu-jp",
-        "hutao-jp",
-        "kaeya-jp",
-        "keqing-jp",
-        "klee-jp",
-        "kokomi-jp",
-        "mona-jp",
-        "nahida-jp",
-        "nilou-jp",
-        "wanderer-jp",
-        "yaemiko-jp",
-        "yelan-jp",
-        "yoimiya-jp",
-        "zhongli-jp",
-        "aether-jp-v2",
-        "albedo-jp-v2",
-        "alhaitam-jp-v2",
-        "amber-jp-v2",
-        "ayaka-jp-v2",
-        "barbara-jp-v2",
-        "bennett-jp-v2",
-        "charlotte-jp-v2",
-        "chongyun-jp-v2",
-        "cyno-jp-v2",
-        "dehya-jp-v2",
-        "diona-jp-v2",
-        "dori-jp-v2",
-        "faruzan-jp-v2",
-        "furina-jp-v2",
-        "greaterLordRukkhadevata-jp-v2",
-        "itto-jp-v2",
-        "jean-jp-v2",
-        "kaveh-jp-v2",
-        "kazuha-jp-v2",
-        "kuki-jp-v2",
-        "lisa-jp-v2",
-        "lumine-jp-v2",
-        "lynette-jp-v2",
-        "lyney-jp-v2",
-        "nahida-jp-v2",
-        "navia-jp-v2",
-        "neuvillette-jp-v2",
-        "nilou-jp-v2",
-        "ningguang-jp-v2",
-        "noelle-jp-v2",
-        "paimon-jp-v2",
-        "qiqi-jp-v2",
-        "raiden-jp-v2",
-        "razor-jp-v2",
-        "rosaria-jp-v2",
-        "sara-jp-v2",
-        "shenhe-jp-v2",
-        "sigewinne-jp-v2",
-        "signora-jp-v2",
-        "sucrose-jp-v2",
-        "tartaglia-jp-v2",
-        "venti-jp-v2",
-        "wriothesley-jp-v2",
-        "xiao-jp-v2",
-        "yanfei-jp-v2",
-        "zhongli-jp-v2"
-    ]
+    "tags": {
+        "genshin-impact": "Genshin Impact character voices",
+        "japanese": "Japanese (JP) voice models",
+        "english": "English (EN) voice models",
+        "male": "Male voice models",
+        "female": "Female voice models",
+        "v1": "RVC V1 architecture",
+        "v2": "RVC V2 architecture"
+    }
 }

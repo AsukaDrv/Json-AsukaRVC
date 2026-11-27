@@ -747,6 +747,31 @@ async def train_dataset_upload(
     return {"saved": saved, "dataset_dir": dataset_dir, "state": _train_state(model_name)}
 
 
+@router.post("/train/tensorboard")
+def train_tensorboard(port: int = Query(0, description="TensorBoard port (0 = default 6006).")):
+    """Launch the embedded TensorBoard server (same helper as the Gradio tab).
+
+    Returns a link with pinned loss charts, or HTTP 400 when TensorBoard
+    cannot be launched in this environment.
+    """
+    from ui.utils.tensorboard import DEFAULT_TENSORBOARD_PORT, launch_tensorboard
+
+    train_module = _train_module()
+    try:
+        logs_dir = train_module._require_logs_dir()
+    except Exception as error:  # gr.Error or RuntimeError (e.g. Colab without Drive)
+        raise HTTPException(status_code=400, detail=str(error)) from error
+
+    try:
+        url = launch_tensorboard(logs_dir, int(port or DEFAULT_TENSORBOARD_PORT))
+    except Exception as error:
+        raise HTTPException(status_code=400, detail=f"TensorBoard launch error: {error}") from error
+
+    if url.startswith("TensorBoard launch error"):
+        raise HTTPException(status_code=400, detail=url)
+    return {"url": url, "logs_dir": logs_dir}
+
+
 @router.post("/jobs/stop")
 def stop_job():
     return {"message": manager.stop()}

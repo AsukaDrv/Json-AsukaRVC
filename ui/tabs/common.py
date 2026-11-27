@@ -149,40 +149,6 @@ def upload_local_model(zip_path, dir_name, progress=gr.Progress()):
 
 
 
-def download_model(rvc_model, progress=gr.Progress()):
-    """Download an RVC voice model if it isn't already installed.
-
-    Looks the model up in ``genshin_model.json``, downloads its zip, and
-    extracts it into ``rvc_models_dir``. Uses the shared helpers
-    (``extract_zip``) and the module's ``gr.Error`` error style.
-    """
-    ensure_rvc_models_dir()
-
-    # Read model list database
-    with open(os.path.join(BASE_DIR, 'genshin_model.json'), 'r') as file:
-        data = json.load(file)
-
-    model_path = os.path.join(rvc_models_dir, rvc_model)
-
-    # Download voice model if missing
-    if os.path.exists(model_path):
-        return f"The model for {rvc_model} already exists in rvc_models."
-
-    models = data["model_data"]
-    for item in models:
-        if rvc_model == item[1]:
-            progress(0, desc=f'[~] Downloading voice model {rvc_model}...')
-            os.makedirs(model_path, exist_ok=True)
-            zip_path = os.path.join(model_path, item[2].split('/')[-1])
-            urllib.request.urlretrieve(item[2], zip_path)
-            progress(0.5, desc='[~] Extracting zip...')
-            extract_zip(model_path, zip_path)
-            return f'[+] {rvc_model} Model successfully downloaded!'
-
-    print(f"⚠️ Target model '{rvc_model}' not found in genshin_model.json list!")
-    raise gr.Error(f"Target model '{rvc_model}' not found in genshin_model.json list!")
-
-
 def filter_models(tags, query):
     """Filter the public models table by tags and/or a free text query."""
     public_models = load_public_models_json()
