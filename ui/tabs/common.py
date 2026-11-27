@@ -41,11 +41,16 @@ def ensure_rvc_models_dir():
 
 
 def get_current_models(models_dir):
-    """List installed voice models, excluding base/helper files."""
+    """List installed voice models, excluding base/helper files and folders."""
     ensure_rvc_models_dir()
     models_list = os.listdir(models_dir)
     items_to_remove = ['hubert_base.pt', 'MODELS.txt', 'public_models.json', 'rmvpe.pt']
-    return [item for item in models_list if item not in items_to_remove]
+    # The character_images folder stores preview artwork, not a voice model.
+    return [
+        item for item in models_list
+        if item not in items_to_remove and os.path.isdir(os.path.join(models_dir, item))
+        and item != 'character_images'
+    ]
 
 
 def get_selectable_models(models_dir=rvc_models_dir):
