@@ -39,9 +39,6 @@ def inference_tab():
             label='Character',
             show_label=False,
             interactive=False,
-            show_download_button=False,
-            show_share_button=False,
-            height=240,
             visible=get_character_image(default_model) is not None,
             elem_classes=['character-preview'],
         )
