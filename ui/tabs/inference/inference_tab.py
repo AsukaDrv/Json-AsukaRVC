@@ -29,17 +29,14 @@ def inference_tab():
     denoise_model_names = separation_model_names['denoise']
     dereverb_model_names = separation_model_names['dereverb']
     deecho_model_names = separation_model_names['deecho']
-
+    default_model = selectable_models[0] if selectable_models else None
+    character_md = gr.Markdown(
+        value=get_character_image_markdown(default_model),
+        visible=bool(get_character_image_markdown(default_model)),
+         elem_classes=['character-preview'],
+    )
     with gr.Tab("Inference"):
-        default_model = selectable_models[0] if selectable_models else None
-        # Character preview rendered as Markdown/HTML above the model
-        # selector; hidden when the selected model has no image
-        # (see assets/rvc_models/character_images).
-        character_md = gr.Markdown(
-            value=get_character_image_markdown(default_model),
-            visible=bool(get_character_image_markdown(default_model)),
-            elem_classes=['character-preview'],
-        )
+        
         with gr.Row():
             rvc_model = gr.Dropdown(
                 selectable_models,
@@ -48,8 +45,7 @@ def inference_tab():
                 allow_custom_value=False,
                 info='Installed models first, then every public model — selecting a missing one auto-downloads it before the conversion. Use Refresh after downloading new models.',
             )
-            ref_btn = gr.Button('Refresh', variant='primary')
-
+            
         with gr.Column():
             pitch = gr.Slider(-3, 3, value=0, step=1, label='Pitch Change (Vocals ONLY)')
             pitch_all = gr.Slider(-12, 12, value=0, step=1, label='Overall Pitch Change')
@@ -216,21 +212,4 @@ def inference_tab():
             ],
             outputs=[ai_cover]
         )
-        clear_btn.click(
-            lambda: [0, 0, 0, 0, 0.5, 3, 0.25, 0.33, 'rmvpe', 128, 0, 0.15, 0.2, 0.8, 0.7, 1.0, 'mp3', 'mp3', None, True, True, False, False, False, 0, 0,
-                     False, None, '', 0, 3, 0.5, 0.25, 0.33, 'rmvpe+', 128, 'wav', False, False, 'contentvec',
-                     False, '', '',
-                     False, DEFAULT_DRIVE_FOLDER, 1, False],
-            outputs=[pitch, main_gain, backup_gain, inst_gain, index_rate, filter_radius, rms_mix_rate,
-                     protect, f0_method, crepe_hop_length, pitch_all, reverb_rm_size, reverb_wet,
-                     reverb_dry, reverb_damping, reverb_width, output_format, export_format_final,
-                     ai_cover, extra_denoise,
-                     use_dereverb, use_denoise, use_deecho, instruments_only,
-                     backing_vocals_volume, inst_pitch_shift,
-                     infer_backing_vocals, infer_backing_vocals_model, infer_backing_vocals_index,
-                     pitch_back, filter_radius_back, index_rate_back, rms_mix_rate_back,
-                     protect_back, pitch_extract_back, hop_length_back,
-                     export_format_rvc_back, split_audio_back, autotune_back, embedder_model_back,
-                     hf_upload, hf_repo_id, hf_token,
-                     save_drive, drive_folder, batch_size, use_tta]
-        )
+        
