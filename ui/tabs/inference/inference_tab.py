@@ -181,9 +181,7 @@ def inference_tab():
             generate_btn = gr.Button("Generate", variant='primary')
         ai_cover = gr.Audio(label='AI Cover')
 
-        ref_btn.click(update_models_list, None, outputs=rvc_model).then(
-            update_character_image, inputs=rvc_model, outputs=character_md
-        )
+        
         rvc_model.change(update_character_image, inputs=rvc_model, outputs=character_md)
         is_webui = gr.Number(value=1, visible=False)
 
