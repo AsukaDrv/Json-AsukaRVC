@@ -57,20 +57,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.ui == 'web':
-        # Custom HTML/CSS/JS UI hosted by the Gradio server: the frontend is
-        # mounted at /webui, the REST API at /api/v1, and --share exposes both
-        # through a public *.gradio.live URL.
         from programs.webui.server import launch_webui
 
         launch_webui(args)
     else:
         # The classic Gradio UI needs the tab builders; the custom web UI does
         # not, so they are only imported in this branch.
-        from ui.tabs.tabs_main import downloader_tab, inference_tab, upload_tab
+        from ui.tabs.tabs_main import inference_tab
 
-        # Gradio 6.0 moved the Blocks theme from the constructor to launch().
-        # Older versions still expect it in the constructor, so pick the right
-        # spot based on the installed major version.
         gradio_major = int(gr.__version__.split('.')[0])
         blocks_kwargs = {'title': 'AsukaRVC V3', 'fill_width': True, 'fill_height': True}
         launch_kwargs = {
@@ -103,9 +97,7 @@ if __name__ == '__main__':
                 gr.Markdown("Duplicate the old CPU space for use in private: [![Duplicate this Space](https://huggingface.co/datasets/huggingface/badges/raw/main/duplicate-this-space-sm-dark.svg)](https://huggingface.co/spaces/r3gm/AICoverGen_old_stable_cpu?duplicate=true)\n\n")
 
             inference_tab()
-            downloader_tab()
-            upload_tab()
-
+            
         print("-----------")
         print("AsukaRVC V3")
         print("-----------")
