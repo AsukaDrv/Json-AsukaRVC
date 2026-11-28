@@ -35,6 +35,7 @@ def inference_tab():
         visible=bool(get_character_image_markdown(default_model)),
          elem_classes=['character-preview'],
     )
+    gr.Markdown("You can edir the character list on `assets/rvc_models/public_models.json`")
     with gr.Tab("Inference"):
         
         with gr.Row():
