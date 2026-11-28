@@ -46,7 +46,6 @@ def inference_tab():
                 info='Installed models first, then every public model — selecting a missing one auto-downloads it before the conversion. Use Refresh after downloading new models.',
             )
             
-        with gr.Column():
             pitch = gr.Slider(-3, 3, value=0, step=1, label='Pitch Change (Vocals ONLY)')
             pitch_all = gr.Slider(-12, 12, value=0, step=1, label='Overall Pitch Change')
 
@@ -74,42 +73,44 @@ def inference_tab():
             show_file_upload_button.click(swap_visibility, outputs=[file_upload_col, yt_link_col, song_input, local_file])
             show_yt_link_button.click(swap_visibility, outputs=[yt_link_col, file_upload_col, song_input, local_file])
 
-        with gr.Accordion('Separation Models', open=False):
-            gr.Markdown('### Choose which models to use for each separation step')
-            with gr.Row():
-                vocal_model_name = gr.Dropdown(vocal_model_names, value=vocal_model_names[0], label='Vocal Separation Model')
-                karaoke_model_name = gr.Dropdown(karaoke_model_names, value=karaoke_model_names[0], label='Karaoke Model')
-            with gr.Row():
-                dereverb_model_name = gr.Dropdown(dereverb_model_names, value=dereverb_model_names[0], label='Dereverb Model')
-                denoise_model_name = gr.Dropdown(denoise_model_names, value=denoise_model_names[0], label='Denoise Model')
-                deecho_model_name = gr.Dropdown(deecho_model_names, value=deecho_model_names[0], label='Deecho Model')
-            with gr.Row():
-                use_dereverb = gr.Checkbox(value=True, label='Enable Dereverb')
-                use_denoise = gr.Checkbox(value=False, label='Enable Denoise')
-                use_deecho = gr.Checkbox(value=False, label='Enable Deecho')
-                instruments_only = gr.Checkbox(value=False, label='Instruments Only')
+        with gr.Accordion('Settings', open=False):
+            with gr.Accordion('Separation Models', open=False):
+                gr.Markdown('### Choose which models to use for each separation step')
+                with gr.Row():
+                    vocal_model_name = gr.Dropdown(vocal_model_names, value=vocal_model_names[0], label='Vocal Separation Model')
+                    karaoke_model_name = gr.Dropdown(karaoke_model_names, value=karaoke_model_names[0], label='Karaoke Model')
+                with gr.Row():
+                    dereverb_model_name = gr.Dropdown(dereverb_model_names, value=dereverb_model_names[0], label='Dereverb Model')
+                    denoise_model_name = gr.Dropdown(denoise_model_names, value=denoise_model_names[0], label='Denoise Model')
+                    deecho_model_name = gr.Dropdown(deecho_model_names, value=deecho_model_names[0], label='Deecho Model')
+                with gr.Row():
+                    use_dereverb = gr.Checkbox(value=True, label='Enable Dereverb')
+                    use_denoise = gr.Checkbox(value=False, label='Enable Denoise')
+                    use_deecho = gr.Checkbox(value=False, label='Enable Deecho')
+                    instruments_only = gr.Checkbox(value=False, label='Instruments Only')
 
-        with gr.Accordion('Voice conversion options', open=False):
-            with gr.Row():
-                index_rate = gr.Slider(0, 1, value=0.5, label='Index Rate')
-                filter_radius = gr.Slider(0, 7, value=3, step=1, label='Filter radius')
-                rms_mix_rate = gr.Slider(0, 1, value=0.25, label='RMS mix rate')
-                protect = gr.Slider(0, 0.5, value=0.33, label='Protect rate')
-                with gr.Column():
-                    f0_method = gr.Dropdown(['rmvpe', 'fcpe', 'crepe'], value='rmvpe', label='Pitch detection algorithm')
-                    crepe_hop_length = gr.Slider(32, 320, value=128, step=1, visible=False, label='Crepe hop length')
-                    f0_method.change(show_hop_slider, inputs=f0_method, outputs=crepe_hop_length)
-            with gr.Row():
-                batch_size = gr.Slider(minimum=1, maximum=32, label='Batch size (separation)', value=1, step=1, interactive=True)
-                use_tta = gr.Checkbox(False, label='TTA (test-time augmentation, slower but cleaner separation)')
-                extra_denoise = gr.Checkbox(True, label='Denoise')
-                keep_files = gr.Checkbox((False if IS_ZERO_GPU else True), label='Keep intermediate files',
-                                         interactive=(False if IS_ZERO_GPU else True))
+        
+            with gr.Accordion('Voice conversion options', open=False):
+                with gr.Row():
+                    index_rate = gr.Slider(0, 1, value=0.5, label='Index Rate')
+                    filter_radius = gr.Slider(0, 7, value=3, step=1, label='Filter radius')
+                    rms_mix_rate = gr.Slider(0, 1, value=0.25, label='RMS mix rate')
+                    protect = gr.Slider(0, 0.5, value=0.33, label='Protect rate')
+                    with gr.Column():
+                        f0_method = gr.Dropdown(['rmvpe', 'fcpe', 'crepe'], value='rmvpe', label='Pitch detection algorithm')
+                        crepe_hop_length = gr.Slider(32, 320, value=128, step=1, visible=False, label='Crepe hop length')
+                        f0_method.change(show_hop_slider, inputs=f0_method, outputs=crepe_hop_length)
+                with gr.Row():
+                    batch_size = gr.Slider(minimum=1, maximum=32, label='Batch size (separation)', value=1, step=1, interactive=True)
+                    use_tta = gr.Checkbox(False, label='TTA (test-time augmentation, slower but cleaner separation)')
+                    extra_denoise = gr.Checkbox(True, label='Denoise')
+                    keep_files = gr.Checkbox((False if IS_ZERO_GPU else True), label='Keep intermediate files',
+                                             interactive=(False if IS_ZERO_GPU else True))
 
-            with gr.Row():
-                split_audio = gr.Checkbox(value=False, label='Split Audio')
-                autotune = gr.Checkbox(value=False, label='Autotune')
-                embedder_model = gr.Dropdown(['contentvec'], value='contentvec', label='Embedder Model')
+                with gr.Row():
+                    split_audio = gr.Checkbox(value=False, label='Split Audio')
+                    autotune = gr.Checkbox(value=False, label='Autotune')
+                    embedder_model = gr.Dropdown(['contentvec'], value='contentvec', label='Embedder Model')
 
         with gr.Accordion('Backing Vocals RVC (optional)', open=False):
             infer_backing_vocals = gr.Checkbox(value=False, label='Infer Backing Vocals with separate RVC model')
@@ -133,53 +134,51 @@ def inference_tab():
                     embedder_model_back = gr.Dropdown(['contentvec', 'chinese-hubert-base', 'japanese-hubert-base', 'korean-hubert-base'],
                                                       value='contentvec', label='Backing Embedder Model')
             infer_backing_vocals.change(show_backing_vocals_rvc_inputs, inputs=infer_backing_vocals, outputs=backing_rvc_col)
+            
+            with gr.Accordion('Audio mixing options', open=False):
+                gr.Markdown('### Volume Change (decibels)')
+                with gr.Row():
+                    main_gain = gr.Slider(-20, 20, value=0, step=1, label='Main Vocals')
+                    backup_gain = gr.Slider(-20, 20, value=0, step=1, label='Backup Vocals')
+                    inst_gain = gr.Slider(-20, 20, value=0, step=1, label='Music')
+                    backing_vocals_volume = gr.Slider(-20, 20, value=0, step=1, label='Backing Vocals RVC Volume')
+                gr.Markdown('### Reverb Control on AI Vocals')
+                with gr.Row():
+                    reverb_rm_size = gr.Slider(0, 1, value=0.15, label='Room size')
+                    reverb_wet = gr.Slider(0, 1, value=0.2, label='Wetness level')
+                    reverb_dry = gr.Slider(0, 1, value=0.8, label='Dryness level')
+                    reverb_damping = gr.Slider(0, 1, value=0.7, label='Damping level')
+                     reverb_width = gr.Slider(0, 1, value=1.0, label='Width')
 
-        with gr.Accordion('Audio mixing options', open=False):
-            gr.Markdown('### Volume Change (decibels)')
-            with gr.Row():
-                main_gain = gr.Slider(-20, 20, value=0, step=1, label='Main Vocals')
-                backup_gain = gr.Slider(-20, 20, value=0, step=1, label='Backup Vocals')
-                inst_gain = gr.Slider(-20, 20, value=0, step=1, label='Music')
-                backing_vocals_volume = gr.Slider(-20, 20, value=0, step=1, label='Backing Vocals RVC Volume')
+                gr.Markdown('### Instrumental')
+                with gr.Row():
+                    inst_pitch_shift = gr.Slider(-12, 12, value=0, step=1, label='Instrumental Pitch Shift')
 
-            gr.Markdown('### Reverb Control on AI Vocals')
-            with gr.Row():
-                reverb_rm_size = gr.Slider(0, 1, value=0.15, label='Room size')
-                reverb_wet = gr.Slider(0, 1, value=0.2, label='Wetness level')
-                reverb_dry = gr.Slider(0, 1, value=0.8, label='Dryness level')
-                reverb_damping = gr.Slider(0, 1, value=0.7, label='Damping level')
-                reverb_width = gr.Slider(0, 1, value=1.0, label='Width')
+                gr.Markdown('### Audio Output Format')
+                with gr.Row():
+                    output_format = gr.Dropdown(['mp3', 'wav'], value='mp3', label='RVC output file type')
+                    export_format_final = gr.Dropdown(['mp3', 'wav', 'flac'], value='mp3', label='Final output file type')
 
-            gr.Markdown('### Instrumental')
-            with gr.Row():
-                inst_pitch_shift = gr.Slider(-12, 12, value=0, step=1, label='Instrumental Pitch Shift')
+            with gr.Accordion('Hugging Face Upload (optional)', open=False):
+                gr.Markdown('### Push the generated cover to a Hugging Face model repo')
+                hf_upload = gr.Checkbox(value=False, label='Upload result to Hugging Face')
+                with gr.Row():
+                    hf_repo_id = gr.Textbox(label='HF repo (username/repo)', placeholder='your-name/ai-covers')
+                    hf_token = gr.Textbox(label='HF token (write access)', type='password', placeholder='hf_...')
 
-            gr.Markdown('### Audio Output Format')
-            with gr.Row():
-                output_format = gr.Dropdown(['mp3', 'wav'], value='mp3', label='RVC output file type')
-                export_format_final = gr.Dropdown(['mp3', 'wav', 'flac'], value='mp3', label='Final output file type')
-
-        with gr.Accordion('Hugging Face Upload (optional)', open=False):
-            gr.Markdown('### Push the generated cover to a Hugging Face model repo')
-            hf_upload = gr.Checkbox(value=False, label='Upload result to Hugging Face')
-            with gr.Row():
-                hf_repo_id = gr.Textbox(label='HF repo (username/repo)', placeholder='your-name/ai-covers')
-                hf_token = gr.Textbox(label='HF token (write access)', type='password', placeholder='hf_...')
-
-        if in_colab():
-            with gr.Accordion('Google Drive (Colab)', open=False):
-                gr.Markdown('### Copy the generated cover to your Google Drive so it survives the Colab runtime')
-                save_drive = gr.Checkbox(value=False, label='Auto-save the result to Google Drive')
-                drive_folder = gr.Textbox(label='Drive folder (under MyDrive)', value=DEFAULT_DRIVE_FOLDER,
+            if in_colab():
+                with gr.Accordion('Google Drive (Colab)', open=False):
+                    gr.Markdown('### Copy the generated cover to your Google Drive so it survives the Colab runtime')
+                     save_drive = gr.Checkbox(value=False, label='Auto-save the result to Google Drive')
+                    drive_folder = gr.Textbox(label='Drive folder (under MyDrive)', value=DEFAULT_DRIVE_FOLDER,
                                           placeholder=DEFAULT_DRIVE_FOLDER)
-        else:
-            save_drive = gr.Checkbox(value=False, visible=False, label='Auto-save the result to Google Drive')
-            drive_folder = gr.Textbox(visible=False, value=DEFAULT_DRIVE_FOLDER, label='Drive folder (under MyDrive)')
+            else:
+                save_drive = gr.Checkbox(value=False, visible=False, label='Auto-save the result to Google Drive')
+                drive_folder = gr.Textbox(visible=False, value=DEFAULT_DRIVE_FOLDER, label='Drive folder (under MyDrive)')
 
-        with gr.Row():
-            clear_btn = gr.ClearButton(value='Clear', components=[song_input, rvc_model, keep_files, local_file])
-            generate_btn = gr.Button("Generate", variant='primary')
-        ai_cover = gr.Audio(label='AI Cover')
+            with gr.Row():
+                generate_btn = gr.Button("Generate", variant='primary')
+            ai_cover = gr.Audio(label='AI Cover')
 
         
         rvc_model.change(update_character_image, inputs=rvc_model, outputs=character_md)
